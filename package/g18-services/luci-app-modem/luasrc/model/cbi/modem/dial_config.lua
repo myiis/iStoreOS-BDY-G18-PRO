@@ -29,21 +29,12 @@ end
 	name 插件名称
 ]]
 function isPluginExist(name)
-
-	local isExist=false
-
-	-- 正则表达式
-	local version_regular_expression="[0-9]+.[0-9]+.[0-9]+"
-
-	-- 获取插件版本
-	local command="opkg list-installed | grep -oE '"..name.." - "..version_regular_expression.."' | awk -F' ' '{print $3}' | tr -d '\n'"
-	local plugin_version=shell(command)
-
-	if plugin_version~="" then
-		isExist=true
+	local names = name == "quectel-cm" and { "quectel-cm", "quectel-CM-5G" } or { name }
+	for _, package_name in ipairs(names) do
+		local status = shell("opkg status '" .. package_name .. "' 2>/dev/null")
+		if status:match("Status:[^\n]* installed") then return true end
 	end
-
-	return isExist
+	return false
 end
 
 

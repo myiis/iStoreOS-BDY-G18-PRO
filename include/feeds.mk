@@ -38,7 +38,7 @@ define FeedSourcesAppendOPKG
   $(strip $(if $(CONFIG_PER_FEED_REPO), \
 	echo 'src/gz %d_base %U/packages/%A/base'; \
 	$(if y, \
-		echo 'src/gz %d_kmods %U/targets/%S/kmods/$(LINUX_VERSION)-$(LINUX_RELEASE)-$(LINUX_VERMAGIC)';) \
+		echo 'src/gz %d_kmods $(if $(CONFIG_TARGET_rockchip_armv8_DEVICE_bdy_g18-pro),https://downloads.openwrt.org/releases/24.10.8/targets/rockchip/armv8/kmods/6.6.144-1-77d4782035a23e6f19f9c4751451b4e3,%U/targets/%S/kmods/$(LINUX_VERSION)-$(LINUX_RELEASE)-$(LINUX_VERMAGIC))';) \
 	$(foreach feed,$(FEEDS_AVAILABLE), \
 		$(if $(CONFIG_FEED_$(feed)), \
 			echo '$(if $(filter m,$(CONFIG_FEED_$(feed))),# )src/gz %d_$(feed) %U/packages/%A/$(feed)';)))) \

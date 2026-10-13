@@ -858,17 +858,16 @@ end
 ]]
 function setPluginVersionInfo(info)
 
-	-- 正则表达式
-	local version_regular_expression="[0-9]+.[0-9]+.[0-9]+"
-
+	local aliases = { ["quectel-cm"] = { "quectel-cm", "quectel-CM-5G" } }
 	for key in pairs(info) do
-
-		-- 获取插件版本
-		local command="opkg list-installed | grep -oE '"..key.." - "..version_regular_expression.."' | awk -F' ' '{print $3}' | tr -d '\n'"
-		local plugin_version=shell(command)
-
-		if plugin_version~="" then
-			info[key]=plugin_version
+		for _, name in ipairs(aliases[key] or { key }) do
+			local command = "opkg status '" .. name .. "' 2>/dev/null"
+			local status = shell(command)
+			if status:match("Status:[^\n]* installed") then
+				local version = status:match("Version:%s*([^\r\n]+)")
+				if version then info[key] = version end
+				break
+			end
 		end
 	end
 

@@ -114,9 +114,9 @@ OpenWrt 原始构建结果位于 Linux 编译副本的 `bin/targets/rockchip/arm
 | `package/boot/uboot-rockchip` | G18-Pro 启动支持 |
 | `target/linux/generic` | RTL8367 交换机及接口适配 |
 | `package/g18-services` | 默认服务所需的附加源码 |
-| `include/version.mk`、`package/base-files/image-config.in` | 国内软件源默认值 |
+| `include/version.mk`、`package/base-files/image-config.in` | 官方软件源默认值 |
 
-默认软件源为 `https://mirrors.ustc.edu.cn/openwrt/releases/24.10.8`。板级、启动和交换机改动是 G18-Pro 正常启动、识别无线及联网所需的移植内容。
+默认软件源为 `https://downloads.openwrt.org/releases/24.10.8`。 G18-Pro 的 `kmods` 源按指定使用 `https://downloads.openwrt.org/releases/24.10.8/targets/rockchip/armv8/kmods/6.6.144-1-77d4782035a23e6f19f9c4751451b4e3`。此目录索引可下载，但与已测试定制内核的校验值 `53211280c46958652d1ef7e7816d26d3` 不一致，不保证模块可安装或加载；本项目未修改内核校验值或绕过依赖检查。板级、启动和交换机改动是 G18-Pro 正常启动、识别无线及联网所需的移植内容。
 
 ## Related Repositories / 相关仓库
 
@@ -139,6 +139,14 @@ OpenWrt 原始构建结果位于 Linux 编译副本的 `bin/targets/rockchip/arm
 - [OpenWrt 开发者聊天](https://webchat.oftc.net/#openwrt-devel)
 
 定制设备或服务包问题请通过本仓库的 Issues 反馈，并附设备型号、构建版本、配置和相关日志。上游使用说明适用于通用功能，本项目的设备与默认包差异以本文为准。
+
+## Modem 默认支持与状态显示
+
+Modem 管理界面为 1.4.4。默认配置补充 `modemmanager`、`fibocom-dial`、`meig-cm` 和通用 `kmod-usb-net-qmi-wwan`、`kmod-mhi-net`、`kmod-qrtr-mhi`；保留 Quectel QConnectManager 1.6.7（包名 `quectel-CM-5G`）。插件版本检测兼容该包名，并显示 opkg 中完整版本，不再要求三段数字格式。
+
+fibocom-dial 与 meig-cm 的源码取自 [Siriling/5G-Modem-Support](https://github.com/Siriling/5G-Modem-Support/tree/b1d9a12ac4c209b82fb9db533b067c3fec95a9a6)，提交 `b1d9a12ac4c209b82fb9db533b067c3fec95a9a6`；保留原源码声明，独立授权条款仍需核实。
+
+“未加载”表示驱动没有出现在 lsmod，不能据此判定没有安装。厂商私有的 GobiNet、QMI、MHI、MTK PCIe 驱动是不同模组的可选实现，不因管理页面列出就全部强制集成；需要具体模组型号、连接方式及内核 6.6 兼容性验证后选用。以上新增配置尚需下一次完整固件构建及实机验证，正在进行的构建不包含这些改动。
 
 ## 来源、署名与致谢
 
