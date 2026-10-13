@@ -1,0 +1,36 @@
+--- a/include/linux/rtl8367.h	2025-04-21 13:43:58.706253398 +0800
++++ b/include/linux/rtl8367.h	2025-04-28 16:04:46.262325224 +0800
+@@ -18,6 +18,8 @@ enum rtl8367_port_speed {
+ 	RTL8367_PORT_SPEED_10 = 0,
+ 	RTL8367_PORT_SPEED_100,
+ 	RTL8367_PORT_SPEED_1000,
++	RTL8367S_PORT_SPEED_500,
++	RTL8367S_PORT_SPEED_2500,
+ };
+ 
+ struct rtl8367_port_ability {
+@@ -42,6 +44,14 @@ enum rtl8367_extif_mode {
+ 	RTL8367B_EXTIF_MODE_RMII_MAC = 7,
+ 	RTL8367B_EXTIF_MODE_RMII_PHY,
+ 	RTL8367B_EXTIF_MODE_RGMII_33V,
++	RTL8367S_EXTIF_MODE_SGMII = 11,
++	RTL8367S_EXTIF_MODE_HSGMII,
++};
++
++enum rtl8367_extif {
++	RTL8367_EXTIF0 = 0,
++	RTL8367_EXTIF1,
++	RTL8367_EXTIF2,
+ };
+ 
+ struct rtl8367_extif_config {
+--- a/include/linux/switch.h	2025-04-21 13:43:58.706253398 +0800
++++ b/include/linux/switch.h	2025-04-28 16:30:34.132239371 +0800
+@@ -45,6 +45,7 @@ enum switch_port_speed {
+ 	SWITCH_PORT_SPEED_10 = 10,
+ 	SWITCH_PORT_SPEED_100 = 100,
+ 	SWITCH_PORT_SPEED_1000 = 1000,
++	SWITCH_PORT_SPEED_2500 = 2500,
+ };
+ 
+ struct switch_port_link {

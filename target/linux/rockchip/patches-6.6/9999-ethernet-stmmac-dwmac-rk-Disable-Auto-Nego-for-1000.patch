@@ -1,0 +1,90 @@
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c	2025-04-28 11:13:47.793613847 +0800
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c	2025-04-28 11:54:12.293437935 +0800
+@@ -14,6 +14,7 @@
+ #include <linux/phy/phy.h>
+ #include <linux/of_net.h>
+ #include <linux/gpio.h>
++#include <linux/of_mdio.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_gpio.h>
+@@ -178,44 +179,58 @@ static int xpcs_soft_reset(struct rk_pri
+ 
+ static int xpcs_setup(struct rk_priv_data *bsp_priv, int mode)
+ {
++	struct device_node *np = bsp_priv->pdev->dev.of_node;
+ 	int ret, i, idx = bsp_priv->id;
++	bool is_fixed_link;
+ 	u32 val;
+ 
+ 	if (mode == PHY_INTERFACE_MODE_QSGMII && idx > 0)
+ 		return 0;
+ 
++	is_fixed_link = of_phy_is_fixed_link(np);
++
+ 	ret = xpcs_soft_reset(bsp_priv, idx);
+ 	if (ret) {
+ 		dev_err(&bsp_priv->pdev->dev, "xpcs_soft_reset fail %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-	xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_AN_INTR_STS, 0x0);
+-	xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_LINK_TIMER_CTRL, 0x1);
+-
+-	if (mode == PHY_INTERFACE_MODE_SGMII)
+-		xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_AN_CTRL,
+-			   VR_MII_CTRL_SGMII_AN_EN);
+-	else
+-		xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_AN_CTRL,
+-			   VR_MII_CTRL_QSGMII_AN_EN);
++	if (!is_fixed_link) {
++		xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_AN_INTR_STS, 0x0);
++		xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_LINK_TIMER_CTRL, 0x1);
++
++		if (mode == PHY_INTERFACE_MODE_SGMII)
++			xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_AN_CTRL,
++				   VR_MII_CTRL_SGMII_AN_EN);
++		else
++			xpcs_write(bsp_priv, SR_MII_OFFSET(0) + VR_MII_AN_CTRL,
++				   VR_MII_CTRL_QSGMII_AN_EN);
++	}
+ 
+ 	if (mode == PHY_INTERFACE_MODE_QSGMII) {
+ 		for (i = 0; i < 4; i++) {
+-			val = xpcs_read(bsp_priv,
+-					SR_MII_OFFSET(i) + VR_MII_DIG_CTRL1);
+-			xpcs_write(bsp_priv,
+-				   SR_MII_OFFSET(i) + VR_MII_DIG_CTRL1,
+-				   val | MII_MAC_AUTO_SW);
+-			xpcs_write(bsp_priv, SR_MII_OFFSET(i) + MII_BMCR,
+-				   SR_MII_CTRL_AN_ENABLE);
++			if (!is_fixed_link) {
++				val = xpcs_read(bsp_priv,
++						SR_MII_OFFSET(i) + VR_MII_DIG_CTRL1);
++				xpcs_write(bsp_priv,
++					   SR_MII_OFFSET(i) + VR_MII_DIG_CTRL1,
++					   val | MII_MAC_AUTO_SW);
++				xpcs_write(bsp_priv, SR_MII_OFFSET(i) + MII_BMCR,
++					   SR_MII_CTRL_AN_ENABLE);
++			} else {
++				xpcs_write(bsp_priv, SR_MII_OFFSET(i) + MII_BMCR,
++					   BMCR_FULLDPLX | BMCR_SPEED1000);
++			}
+ 		}
+ 	} else {
+-		val = xpcs_read(bsp_priv, SR_MII_OFFSET(idx) + VR_MII_DIG_CTRL1);
+-		xpcs_write(bsp_priv, SR_MII_OFFSET(idx) + VR_MII_DIG_CTRL1,
+-			   val | MII_MAC_AUTO_SW);
+-		xpcs_write(bsp_priv, SR_MII_OFFSET(idx) + MII_BMCR,
+-			   SR_MII_CTRL_AN_ENABLE);
++		if (!is_fixed_link) {
++			val = xpcs_read(bsp_priv, SR_MII_OFFSET(idx) + VR_MII_DIG_CTRL1);
++			xpcs_write(bsp_priv, SR_MII_OFFSET(idx) + VR_MII_DIG_CTRL1,
++				   val | MII_MAC_AUTO_SW);
++		} else {
++			xpcs_write(bsp_priv, SR_MII_OFFSET(idx) + MII_BMCR,
++				    BMCR_FULLDPLX | BMCR_SPEED1000);
++		}
+ 	}
+ 
+ 	return ret;

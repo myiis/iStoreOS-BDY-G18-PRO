@@ -45,6 +45,14 @@ define Build/pine64-img
 	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-u-boot-rockchip.bin of="$@" seek=64 conv=notrunc
 endef
 
+# Keep the proven G18-Pro partition layout (32 MiB alignment).
+define Build/g18-img
+	PADDING=1 $(SCRIPT_DIR)/gen_image_generic.sh \
+		$@ $(CONFIG_TARGET_KERNEL_PARTSIZE) $@.boot \
+		$(CONFIG_TARGET_ROOTFS_PARTSIZE) $(IMAGE_ROOTFS) 32768
+	dd if="$(STAGING_DIR_IMAGE)/$(UBOOT_DEVICE_NAME)-u-boot-rockchip.bin" of="$@" seek=64 conv=notrunc
+endef
+
 ### Legacy Image scripts ###
 define Build/boot-common-legacy
 	# This creates a new folder copies the dtbs (as rockchip*.dtb) 

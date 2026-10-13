@@ -1,0 +1,45 @@
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -207,6 +207,10 @@
+ {
+ 	struct page *page;
+ 	int ret = 0;
++
++	/* RK3568 ITS tables must remain in the low DMA address range. */
++	if (of_machine_is_compatible("bdy,g18-pro"))
++		gfp |= GFP_DMA;
+ 
+ 	page = alloc_pages_node(node, gfp, order);
+ 
+@@ -4830,6 +4834,18 @@
+ 	 * page. Trick it into doing the right thing...
+ 	 */
+ 	its->vlpi_redist_offset = SZ_128K;
++	return true;
++}
++
++static bool __maybe_unused its_enable_g18_rk3568001(void *data)
++{
++	struct its_node *its = data;
++
++	if (!of_machine_is_compatible("bdy,g18-pro"))
++		return false;
++
++	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
++	gic_rdists->flags |= RDIST_FLAGS_FORCE_NON_SHAREABLE;
+ 	return true;
+ }
+ 
+@@ -4903,6 +4919,12 @@
+ #endif
+ #ifdef CONFIG_ROCKCHIP_ERRATUM_3588001
+ 	{
++		.desc = "ITS: G18-Pro RK3568001",
++		.iidr = 0x0201743b,
++		.mask = 0xffffffff,
++		.init = its_enable_g18_rk3568001,
++	},
++	{
+ 		.desc   = "ITS: Rockchip erratum RK3588001",
+ 		.iidr   = 0x0201743b,
+ 		.mask   = 0xffffffff,

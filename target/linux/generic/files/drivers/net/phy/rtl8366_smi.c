@@ -414,6 +414,88 @@ int rtl8366_smi_rmwr(struct rtl8366_smi *smi, u32 addr, u32 mask, u32 data)
 }
 EXPORT_SYMBOL_GPL(rtl8366_smi_rmwr);
 
+int rtl8366_smi_rwbt(struct rtl8366_smi *smi, u32 addr, u32 bit, u32 value)
+{
+	u32 t;
+    int err;
+
+    err = rtl8366_smi_read_reg(smi, addr, &t);
+    if (err)
+		return err;
+
+    if(value)
+        t = t | (1 << bit);
+    else
+        t = t & (~(1 << bit));
+
+    err = rtl8366_smi_write_reg(smi, addr, t);
+    return err;
+}
+EXPORT_SYMBOL_GPL(rtl8366_smi_rwbt);
+
+int rtl8366_smi_rdbt(struct rtl8366_smi *smi, u32 addr, u32 bit, u32 *value)
+{
+	u32 t;
+    int err;
+
+	err = rtl8366_smi_read_reg(smi, addr, &t);
+    if (err)
+		return err;
+
+    *value = (t & (0x1 << bit)) >> bit;
+
+    return err;
+}
+EXPORT_SYMBOL_GPL(rtl8366_smi_rdbt);
+
+int rtl8366_smi_rwbts(struct rtl8366_smi *smi, u32 addr, u32 bits, u32 value)
+{
+	u32 t;
+    int err;
+	u32 bitsShift;
+	u32 valueShifted;
+
+	bitsShift = 0;
+	while(!(bits & (1 << bitsShift)))
+    {
+        bitsShift++;
+    }
+	valueShifted = value << bitsShift;
+
+    err = rtl8366_smi_read_reg(smi, addr, &t);
+    if (err)
+		return err;
+
+    t = t & (~bits);
+    t = t | (valueShifted & bits);
+
+    err = rtl8366_smi_write_reg(smi, addr, t);
+    return err;
+}
+EXPORT_SYMBOL_GPL(rtl8366_smi_rwbts);
+
+int rtl8366_smi_rdbts(struct rtl8366_smi *smi, u32 addr, u32 bits, u32 *value)
+{
+	u32 t;
+    int err;
+
+	u32 bitsShift;
+
+	bitsShift = 0;
+	while(!(bits & (1 << bitsShift)))
+	{
+		bitsShift++;
+	}
+
+	err = rtl8366_smi_read_reg(smi, addr, &t);
+    if (err)
+		return err;
+	*value = (t & bits) >> bitsShift;
+
+    return err;
+}
+EXPORT_SYMBOL_GPL(rtl8366_smi_rdbts);
+
 static int rtl8366_reset(struct rtl8366_smi *smi)
 {
 	if (smi->hw_reset) {

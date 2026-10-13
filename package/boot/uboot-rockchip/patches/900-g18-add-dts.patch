@@ -1,0 +1,5 @@
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -1,0 +2,2 @@
++dtb-$(CONFIG_ROCKCHIP_RK3568) += rk3568-bdy-g18-pro.dtb
++

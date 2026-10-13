@@ -1,0 +1,36 @@
+--- a/mt7615/eeprom.c
++++ b/mt7615/eeprom.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/of.h>
++#include <linux/firmware.h>
+ #include "mt7615.h"
+ #include "eeprom.h"
+ 
+@@ -80,6 +81,25 @@
+ 	ret = mt76_eeprom_init(&dev->mt76, MT7615_EEPROM_FULL_SIZE);
+ 	if (ret < 0)
+ 		return ret;
++
++	/* Calibration from the proven G18-Pro build, never a generic fallback. */
++	if (!ret && mt76_chip(&dev->mt76) == 0x7615 &&
++	    of_machine_is_compatible("bdy,g18-pro")) {
++		const struct firmware *fw;
++
++		ret = request_firmware(&fw, "mediatek/mt7615e_rf.bin",
++				       dev->mt76.dev);
++		if (ret)
++			return ret;
++		if (fw->size != 1200 || fw->size > MT7615_EEPROM_FULL_SIZE ||
++		    get_unaligned_le16(fw->data) != 0x7615) {
++			release_firmware(fw);
++			return -EINVAL;
++		}
++		memcpy(dev->mt76.eeprom.data, fw->data, fw->size);
++		release_firmware(fw);
++		dev_info(dev->mt76.dev, "loaded G18-Pro MT7615 calibration\n");
++	}
+ 
+ 	return mt7615_efuse_init(dev, addr);
+ }

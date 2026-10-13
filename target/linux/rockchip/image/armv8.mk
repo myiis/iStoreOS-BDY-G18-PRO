@@ -330,3 +330,16 @@ endef
 TARGET_DEVICES += xunlong_orangepi-r1-plus-lts
 
 include legacy.mk
+
+# Board support from zhoufuli/immortalwrt-rk356x 0c31fa40197f.
+define Device/bdy_g18-pro
+  DEVICE_VENDOR := BDY
+  DEVICE_MODEL := G18-PRO
+  SOC := rk3568
+  DEVICE_DTS := rockchip/rk3568-bdy-g18-pro
+  UBOOT_DEVICE_NAME := bdy-g18-pro-rk3568
+  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware kmod-switch-rtl8367b swconfig wpad-openssl
+  IMAGES := sysupgrade.img
+  IMAGE/sysupgrade.img = boot-common | boot-script g18 | g18-img | append-metadata
+endef
+TARGET_DEVICES += bdy_g18-pro

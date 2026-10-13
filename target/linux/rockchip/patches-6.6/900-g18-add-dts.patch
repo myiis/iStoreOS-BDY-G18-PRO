@@ -1,0 +1,4 @@
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -1,0 +2,1 @@
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-bdy-g18-pro.dtb

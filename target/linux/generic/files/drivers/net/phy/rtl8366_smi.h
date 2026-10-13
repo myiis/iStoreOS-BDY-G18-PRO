@@ -129,6 +129,10 @@ int rtl8366_smi_write_reg(struct rtl8366_smi *smi, u32 addr, u32 data);
 int rtl8366_smi_write_reg_noack(struct rtl8366_smi *smi, u32 addr, u32 data);
 int rtl8366_smi_read_reg(struct rtl8366_smi *smi, u32 addr, u32 *data);
 int rtl8366_smi_rmwr(struct rtl8366_smi *smi, u32 addr, u32 mask, u32 data);
+int rtl8366_smi_rwbt(struct rtl8366_smi *smi, u32 addr, u32 bit, u32 value);
+int rtl8366_smi_rwbts(struct rtl8366_smi *smi, u32 addr, u32 bits, u32 value);
+int rtl8366_smi_rdbt(struct rtl8366_smi *smi, u32 addr, u32 bit, u32 *value);
+int rtl8366_smi_rdbts(struct rtl8366_smi *smi, u32 addr, u32 bits, u32 *value);
 
 #ifdef CONFIG_RTL8366_SMI_DEBUG_FS
 int rtl8366_debugfs_open(struct inode *inode, struct file *file);

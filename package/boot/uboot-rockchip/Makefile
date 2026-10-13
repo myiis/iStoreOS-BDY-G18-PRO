@@ -290,6 +290,12 @@ define U-Boot/rock-3b-rk3568
 endef
 
 
+define U-Boot/bdy-g18-pro-rk3568
+  $(U-Boot/rk3568/Default)
+  NAME:=BDY G18 PRO
+  BUILD_DEVICES:=bdy_g18-pro
+endef
+
 # RK3588 boards
 
 define U-Boot/rk3588/Default
@@ -371,6 +377,7 @@ define U-Boot/rock5a-rk3588s
 endef
 
 UBOOT_TARGETS := \
+  bdy-g18-pro-rk3568 \
   nanopc-t4-rk3399 \
   nanopi-r4s-rk3399 \
   nanopi-r4se-rk3399 \

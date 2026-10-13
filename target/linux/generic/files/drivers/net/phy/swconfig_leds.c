@@ -24,10 +24,12 @@
 #define SWCONFIG_LED_PORT_SPEED_10	0x02	/* 10 Mbps */
 #define SWCONFIG_LED_PORT_SPEED_100	0x04	/* 100 Mbps */
 #define SWCONFIG_LED_PORT_SPEED_1000	0x08	/* 1000 Mbps */
+#define SWCONFIG_LED_PORT_SPEED_2500	0x10	/* 2500 Mbps */
 #define SWCONFIG_LED_PORT_SPEED_ALL	(SWCONFIG_LED_PORT_SPEED_NA | \
 					 SWCONFIG_LED_PORT_SPEED_10 | \
 					 SWCONFIG_LED_PORT_SPEED_100 | \
-					 SWCONFIG_LED_PORT_SPEED_1000)
+					 SWCONFIG_LED_PORT_SPEED_1000 | \
+					 SWCONFIG_LED_PORT_SPEED_2500)
 
 #define SWCONFIG_LED_MODE_LINK		0x01
 #define SWCONFIG_LED_MODE_TX		0x02
@@ -477,6 +479,10 @@ swconfig_led_work_func(struct work_struct *work)
 				case SWITCH_PORT_SPEED_1000:
 					sw_trig->link_speed[i] =
 						SWCONFIG_LED_PORT_SPEED_1000;
+					break;
+				case SWITCH_PORT_SPEED_2500:
+					sw_trig->link_speed[i] =
+						SWCONFIG_LED_PORT_SPEED_2500;
 					break;
 				}
 			}

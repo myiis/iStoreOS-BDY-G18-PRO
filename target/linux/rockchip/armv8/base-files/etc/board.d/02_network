@@ -7,6 +7,11 @@ rockchip_setup_interfaces()
 	local board="$1"
 
 	case "$board" in
+	bdy,g18-pro)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "6u@eth0" "7u@eth1"
+		;;
 	cyber,cyber3588-aib|\
 	armsom,sige7|\
 	easepi,ars4|\
