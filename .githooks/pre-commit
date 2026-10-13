@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+if git cat-file -e HEAD:config/g18-wifi-lock.json 2>/dev/null; then
+    exec python3 scripts/g18-wifi-guard.py --baseline HEAD --index
+fi
+# Bootstrap only: the first protection commit has no parent lock.
+exec python3 scripts/g18-wifi-guard.py --index

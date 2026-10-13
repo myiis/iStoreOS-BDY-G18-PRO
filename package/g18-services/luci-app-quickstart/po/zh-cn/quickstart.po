@@ -1,0 +1,10 @@
+# Local menu translations for the animegasan Quickstart integration.
+# SPDX-License-Identifier: Apache-2.0
+msgid "Dashboard"
+msgstr "首页"
+
+msgid "Network Port"
+msgstr "网口配置"
+
+msgid "S.M.A.R.T"
+msgstr "S.M.A.R.T"

@@ -40,7 +40,7 @@ Ubuntu 22.04 可使用以下命令准备本项目所需的基础依赖：
 ```bash
 sudo apt update
 sudo apt install -y build-essential clang flex bison g++ gawk gcc-multilib \
-  gettext git libncurses-dev libssl-dev python3 python3-setuptools \
+  gettext git libncurses-dev libssl-dev python3 python3-dev python3-setuptools \
   python3-pyelftools rsync unzip zlib1g-dev file wget curl subversion \
   swig libelf-dev device-tree-compiler zstd time
 ```
@@ -72,7 +72,7 @@ make download -j1
 make -j1 V=s
 ```
 
-确认选择的设备为 `BDY G18-PRO`，并检查 `make defconfig` 没有丢弃所需软件包。完整默认配置包含中文 LuCI、iStore、Docker/Compose、Alist、OpenClash、Passwall、HomeProxy、DDNS-Go、文件共享、磁盘管理、流量统计、OpenAppFilter、ZeroTier、UPnP、定时限速及 `app-meta-modem` 等。
+确认选择的设备为 `BDY G18-PRO`，并检查 `make defconfig` 没有丢弃所需软件包。完整默认配置包含中文 LuCI、iStore、Docker/Compose、Docker Manager 0.1.1、Alist、OpenClash、Passwall、HomeProxy、DDNS-Go、文件共享、磁盘管理、流量统计、OpenAppFilter、ZeroTier、UPnP、定时限速及 `app-meta-modem` 等。
 
 完整服务配置需要额外的 ImmortalWrt 包源：
 
@@ -85,7 +85,23 @@ src-git g18luci https://github.com/immortalwrt/luci.git;openwrt-24.10
 
 Alist 的 FUSE 依赖、ndisc6 的 C11 编译设置、固定提交的 Quectel 源码、Modem 翻译及 PCIe 依赖适配已包含在本仓库的附加包源码中。
 
-### Docker 编译与目录约定
+Docker Manager 0.1.1 已在 `config/g18-pro.config` 中明确选为默认内置包，包含管理程序、LuCI 页面、iStore 元数据及轻量应用入口和认证依赖。源码入口保存在 `package/g18-services/`，版本来源见该目录的 `DOCKER-MANAGER-SOURCES.md`。加载预设后执行 `make defconfig` 即会选中这些包。Quickstart 的 LuCI 界面、后端服务及直接依赖也已明确列入该预设，包定义保存在 `package/g18-services/`。
+
+### Ubuntu 本机一键构建
+
+当前直接使用本机 Ubuntu 24 编译，不需要 Docker。准备 feeds、加载配置并完成 `make defconfig` 后，在源码根目录运行：
+
+```bash
+bash scripts/g18-build.sh
+```
+
+脚本使用现有 `.config`，先检查锁定的无线构建输入、G18-Pro 设备和 MT7615E 包选择，再下载源码并以单线程显示详细日志构建。它设置 `FORCE_UNSAFE_CONFIGURE=1` 以支持当前 root 编译环境，不会更新 feeds、覆盖配置或清理构建目录。日志保存在 `logs/g18-build-*.log`，失败时停止并返回失败状态，修复后可以重新执行同一命令。
+
+构建产物位于 `bin/targets/rockchip/armv8/`，不会自动导出到 `releases/`。完整默认服务所需的补充 feeds 和适配仍需按前文准备，本脚本不负责补齐。
+
+预设中的 Go 引导路径 `/usr/lib/go-1.18` 来自旧 Ubuntu 22.04 环境。在当前 Linux x86_64 本机上，如果该路径不存在，一键脚本会通过构建参数改用软件源自带的 Go 引导流程，不修改预设或 `.config`；首次构建需要额外下载并编译引导工具链。其他架构缺少引导环境时会提前停止。
+
+### 历史 Docker 编译环境与目录约定
 
 在 Docker 中使用区分大小写的 Linux 数据卷存放编译副本。feeds、下载缓存、工具链及构建日志留在容器；最终镜像和校验结果统一导出到仓库根目录的 `releases/`，文档中的路径均相对于仓库根目录。
 
@@ -103,6 +119,8 @@ make -j1 V=s
 OpenWrt 原始构建结果位于 Linux 编译副本的 `bin/targets/rockchip/armv8/`。当前 Docker 构建脚本验证成功后，将 G18-Pro 镜像、软件包清单、构建信息和校验结果导出到仓库的 `releases/`；`releases/sha256sums` 使用相对文件名，可在该目录执行 `sha256sum -c sha256sums`。该目录不纳入 Git，发布文件可单独上传到 GitHub Releases。启动、无线及温度需要实机验证。
 
 ## G18-Pro 定制范围
+
+**MT7615E 驱动禁止被上游替换或升级。** 当前驱动、校准文件、公共无线组件及默认配置已建立锁定检查。上游同步必须使用专用流程，详见 [G18 上游同步与无线保护](config/G18-UPSTREAM.md)。
 
 无线使用原生 `mt76 / mt7615e`。G18-Pro 专用补丁加载与已知正常参考一致的校准文件，设备树提供 EEPROM 数据时优先使用设备树数据。此前射频过热的唯一原因尚未确认。
 

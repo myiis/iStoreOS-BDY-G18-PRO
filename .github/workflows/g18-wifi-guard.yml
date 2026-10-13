@@ -1,0 +1,50 @@
+name: G18 wireless protection
+on: [push, pull_request]
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check frozen wireless inputs against the previous revision
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE" ] && [ "$BASE" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BASE:config/g18-wifi-lock.json" 2>/dev/null; then
+            python3 - <<'PY'
+          import hashlib, json, os, pathlib, re, subprocess
+          def previous(path):
+              return subprocess.check_output(['git', 'show', os.environ['BASE'] + ':' + path])
+          old = json.loads(previous('config/g18-wifi-lock.json'))
+          new = json.loads(pathlib.Path('config/g18-wifi-lock.json').read_bytes())
+          preset = 'config/g18-pro.config'
+          workflow = '.github/workflows/g18-wifi-guard.yml'
+          # Explicit package additions may refresh the preset checksum. Driver
+          # selections and all existing settings must remain byte-for-byte intact.
+          before = previous(preset).decode().splitlines()
+          after = pathlib.Path(preset).read_text().splitlines()
+          cursor = 0
+          for line in after:
+              if cursor < len(before) and line == before[cursor]:
+                  cursor += 1
+                  continue
+              if not line.strip() or (line.startswith("# ") and not line.startswith("# CONFIG_")):
+                  continue
+              match = re.fullmatch(r'CONFIG_PACKAGE_([A-Za-z0-9_+.-]+)=y', line)
+              assert match, 'Only added package selections are allowed: ' + line
+              name = match.group(1)
+              assert not re.search(r'kmod-(?:mt|mac80211|cfg80211|lib80211)|mt76|mt_wifi|firmware|hostapd|wpad|wireless|wifi', name), 'Wireless additions require separate review'
+              assert not any(x.startswith('CONFIG_PACKAGE_' + name + '=') or x == '# CONFIG_PACKAGE_' + name + ' is not set' for x in before), 'Existing package setting changed'
+          assert cursor == len(before), 'Existing preset settings were removed or changed'
+          # Never allow a package addition to refresh any driver hash. The
+          # workflow checksum is mutable because this check runs in this file.
+          for path, digest in old['sha256'].items():
+              if path not in (preset, workflow):
+                  assert hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() == digest, 'Protected file changed: ' + path
+          for path in (preset, workflow):
+              new['sha256'][path] = old['sha256'][path]
+          assert new == old, 'Protected lock entries changed'
+          PY
+          fi
+          python3 scripts/g18-wifi-guard.py

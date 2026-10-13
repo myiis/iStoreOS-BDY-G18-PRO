@@ -14,6 +14,12 @@ $(if $(findstring $(space),$(TOPDIR)),$(error ERROR: The path to the OpenWrt dir
 
 world:
 
+# Freeze the validated G18 MT7615E inputs before any configuration/build step.
+G18_WIFI_GUARD := $(shell python3 $(TOPDIR)/scripts/g18-wifi-guard.py >/dev/null && echo ok)
+ifneq ($(G18_WIFI_GUARD),ok)
+  $(error G18 MT7615E protected inputs changed; run python3 scripts/g18-wifi-guard.py)
+endif
+
 DISTRO_PKG_CONFIG:=$(shell $(TOPDIR)/scripts/command_all.sh pkg-config | grep -e '/usr' -e '/nix/store' -m 1)
 
 export ORIG_PATH:=$(if $(ORIG_PATH),$(ORIG_PATH),$(PATH))
