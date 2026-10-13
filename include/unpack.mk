@@ -3,7 +3,8 @@
 # Copyright (C) 2006-2020 OpenWrt.org
 
 HOST_TAR:=$(TAR)
-TAR_CMD=$(HOST_TAR) -C $(1)/.. $(TAR_OPTIONS)
+# Source archive owners need not exist in the build host's UID namespace.
+TAR_CMD=$(HOST_TAR) --no-same-owner -C $(1)/.. $(TAR_OPTIONS)
 UNZIP_CMD=unzip -q -d $(1)/.. $(DL_DIR)/$(PKG_SOURCE)
 
 ifeq ($(PKG_SOURCE),)
