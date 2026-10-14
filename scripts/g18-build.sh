@@ -42,8 +42,13 @@ if grep -Eq '^CONFIG_PACKAGE_kmod-mt_wifi=(y|m)$' .config; then
     exit 1
 fi
 
-# Do not silently produce an image without the proxy packages in the preset.
-for package in luci-app-passwall luci-app-openclash openclash-core; do
+# Do not silently omit the integrations explicitly requested for the preset.
+required_packages=(
+    luci-app-passwall luci-app-openclash openclash-core
+    luci-proto-modemmanager modemmanager
+    luci-proto-wireguard wireguard-tools kmod-wireguard
+)
+for package in "${required_packages[@]}"; do
     if grep -qx "CONFIG_PACKAGE_${package}=y" config/g18-pro.config &&
        ! grep -qx "CONFIG_PACKAGE_${package}=y" .config; then
         echo "Missing default package in .config: $package. Enable it in make menuconfig, then run make defconfig." >&2
@@ -75,5 +80,21 @@ fi
     make download -j1 V=s "${make_args[@]}"
     echo "Building G18-Pro with $jobs parallel jobs ($cpu_count CPUs available)..."
     make -j"$jobs" V=s "${make_args[@]}"
+    python3 - "${required_packages[@]}" <<'PY'
+from pathlib import Path
+import sys
+
+manifests = list(Path('bin/targets/rockchip/armv8').glob('*bdy_g18-pro.manifest'))
+if not manifests:
+    sys.exit('Missing G18 firmware package manifest.')
+manifest = max(manifests, key=lambda p: p.stat().st_mtime_ns)
+installed = {line.split(' - ', 1)[0] for line in manifest.read_text().splitlines()}
+preset = set(Path('config/g18-pro.config').read_text().splitlines())
+missing = [name for name in sys.argv[1:]
+           if f'CONFIG_PACKAGE_{name}=y' in preset and name not in installed]
+if missing:
+    sys.exit(f'Missing default packages in {manifest}: {", ".join(missing)}')
+print(f'Default package manifest verified: {manifest}')
+PY
     echo "Build completed. Output directory: $PWD/bin/targets/rockchip/armv8/"
 } 2>&1 | tee "$log"
