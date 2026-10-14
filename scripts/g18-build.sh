@@ -3,6 +3,13 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
+cpu_count=$(nproc)
+jobs=${JOBS:-$(( cpu_count < 8 ? cpu_count : 8 ))}
+if [[ ! "$jobs" =~ ^[1-9][0-9]*$ ]]; then
+    echo 'JOBS must be a positive integer, for example JOBS=8.' >&2
+    exit 1
+fi
+
 python3 scripts/g18-wifi-guard.py --baseline HEAD
 if ! python3 - <<'PY'
 import pathlib
@@ -35,6 +42,15 @@ if grep -Eq '^CONFIG_PACKAGE_kmod-mt_wifi=(y|m)$' .config; then
     exit 1
 fi
 
+# Do not silently produce an image without the proxy packages in the preset.
+for package in luci-app-passwall luci-app-openclash openclash-core; do
+    if grep -qx "CONFIG_PACKAGE_${package}=y" config/g18-pro.config &&
+       ! grep -qx "CONFIG_PACKAGE_${package}=y" .config; then
+        echo "Missing default package in .config: $package. Enable it in make menuconfig, then run make defconfig." >&2
+        exit 1
+    fi
+done
+
 mkdir -p logs
 log="logs/g18-build-$(date +%Y%m%d-%H%M%S)-$$.log"
 echo "Build log: $PWD/$log"
@@ -57,7 +73,7 @@ fi
     fi
     echo 'Downloading build sources...'
     make download -j1 V=s "${make_args[@]}"
-    echo 'Building G18-Pro...'
-    make -j1 V=s "${make_args[@]}"
+    echo "Building G18-Pro with $jobs parallel jobs ($cpu_count CPUs available)..."
+    make -j"$jobs" V=s "${make_args[@]}"
     echo "Build completed. Output directory: $PWD/bin/targets/rockchip/armv8/"
 } 2>&1 | tee "$log"

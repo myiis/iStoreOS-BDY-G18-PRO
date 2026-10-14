@@ -1,0 +1,39 @@
+{
+  "https://github.com/Openwrt-Passwall/openwrt-passwall": {
+    "commit": "8f7323858c6a76e55d5874bc7704e5a18bf3c951",
+    "packages": [
+      "luci-app-passwall"
+    ]
+  },
+  "https://github.com/vernesong/OpenClash": {
+    "commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+    "packages": [
+      "luci-app-openclash"
+    ]
+  },
+  "https://github.com/Openwrt-Passwall/openwrt-passwall-packages": {
+    "commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "packages": [
+      "chinadns-ng",
+      "dns2socks",
+      "ipt2socks",
+      "tcping",
+      "shadowsocksr-libev",
+      "simple-obfs"
+    ]
+  },
+  "compatibility_packages": {
+    "geoview": {
+      "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages",
+      "commit": "6ec933a419739456707176f37c629e264b1bb343"
+    },
+    "v2ray-plugin": {
+      "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages",
+      "commit": "36e076dccc1060a7e3790d98ba1730b2a142acc1"
+    },
+    "shadowsocks-rust": {
+      "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages",
+      "commit": "3761828fc79bd64744d37f366199294fa43bdc7f"
+    }
+  }
+}
