@@ -10,7 +10,7 @@ function index()
             entry({"admin", "quickstart_dev"}, call("quickstart_dev", {index={"admin", "quickstart_dev"}})).leaf = true
         end
         entry({"admin", "nas", "smart"}, call("quickstart_index", {index={"admin", "nas"}}), _("S.M.A.R.T"), 11).leaf = true
-        entry({"admin", "network", "network_guide"}, call("networkguide_index"), _("Network Guide"), 10)
+        entry({"admin", "network", "network_guide"}, call("networkguide_index"), _("网络向导"), 10)
         entry({"admin", "network", "network_guide", "pages"}, call("quickstart_index", {index={"admin", "network", "network_guide", "pages"}})).leaf = true
         entry({"admin", "network", "interfaceconfig"}, call("quickstart_index", {index={"admin", "network"}}), _("Network Port"), 11).leaf = true
 

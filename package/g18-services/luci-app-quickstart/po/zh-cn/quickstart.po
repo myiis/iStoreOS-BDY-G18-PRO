@@ -6,5 +6,8 @@ msgstr "首页"
 msgid "Network Port"
 msgstr "网口配置"
 
+msgid "Network Guide"
+msgstr "网络向导"
+
 msgid "S.M.A.R.T"
 msgstr "S.M.A.R.T"
