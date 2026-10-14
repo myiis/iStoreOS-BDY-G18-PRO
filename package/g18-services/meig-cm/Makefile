@@ -9,7 +9,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/meig-cm
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS:=+libpthread +libdl
+  DEPENDS:=+libpthread +libc
   TITLE:=meig-cm app
 endef
 

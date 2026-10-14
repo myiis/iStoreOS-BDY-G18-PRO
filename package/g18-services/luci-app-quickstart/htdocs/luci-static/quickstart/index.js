@@ -1087,9 +1087,9 @@ var eF = Fa(Kt => {
                 c = d => {
                     switch (d) {
                         case "full":
-                            return "Full duplex";
+                            return "全双工";
                         case "half":
-                            return "Half duplex"
+                            return "半双工"
                     }
                 },
                 p = d => {
@@ -1104,7 +1104,7 @@ var eF = Fa(Kt => {
                 style: It(w(s)),
                 onMouseenter: p,
                 onMouseleave: f
-            }, [t("div", null, h(c(w(o).duplex)), 1), t("div", null, "Name\uFF1A" + h(w(o).name || "--"), 1), t("div", null, "MAC\uFF1A" + h(w(o).macAddress || "--"), 1), t("div", null, "Down\uFF1A" + h(w(o).rx_packets || "--"), 1), t("div", null, "Up\uFF1A" + h(w(o).tx_packets || "--"), 1)], 36)) : C("", !0)
+            }, [t("div", null, h(c(w(o).duplex)), 1), t("div", null, "名称：" + h(w(o).name || "--"), 1), t("div", null, "MAC\uFF1A" + h(w(o).macAddress || "--"), 1), t("div", null, "下载：" + h(w(o).rx_packets || "--"), 1), t("div", null, "上传：" + h(w(o).tx_packets || "--"), 1)], 36)) : C("", !0)
         }
     });
     var eo = Y(to, [
@@ -1844,7 +1844,7 @@ var eF = Fa(Kt => {
             }
         },
         Si = e => /^\d+\.\d+\.\d+\.\d+$/.test(e),
-        zi = e => e.length < 3 ? "Username is too short" : e.toLowerCase() != e ? "Username can only be in lowercase" : new RegExp("^\\d").exec(e) ? "Username cannot start with a number" : new RegExp("^_").exec(e) ? "Username cannot start with _" : new RegExp("^[a-z0-9_]+$").exec(e) ? !0 : "Invalid username",
+        zi = e => e.length < 3 ? "用户名太短" : e.toLowerCase() != e ? "用户名只能使用小写字母" : new RegExp("^\\d").exec(e) ? "用户名不能以数字开头" : new RegExp("^_").exec(e) ? "用户名不能以下划线开头" : new RegExp("^[a-z0-9_]+$").exec(e) ? !0 : "用户名无效",
         Pi = (e, a) => {
             let o = !0,
                 n = null;
@@ -2006,7 +2006,7 @@ var eF = Fa(Kt => {
                         }
                     },
                     title: {
-                        text: "Traffic Monitoring",
+                        text: "流量监控",
                         textStyle: {
                             fontSize: 12,
                             color: "rgba(0, 0, 0, 0.6)"
@@ -2037,7 +2037,7 @@ var eF = Fa(Kt => {
                         }
                     },
                     series: [{
-                        name: "Down",
+                        name: "下载",
                         data: s.value,
                         type: "line",
                         smooth: !0,
@@ -2059,7 +2059,7 @@ var eF = Fa(Kt => {
                             }
                         }
                     }, {
-                        name: "Up",
+                        name: "上传",
                         data: n.value,
                         type: "line",
                         smooth: !0,
@@ -2125,13 +2125,13 @@ var eF = Fa(Kt => {
                             const g = () => T(this, null, function* () {
                                 m != null && (yield f(), m != null && (_.setOption({
                                     series: [{
-                                        name: "Down",
+                                        name: "下载",
                                         data: s.value,
                                         type: "line",
                                         areaStyle: {},
                                         smooth: !0
                                     }, {
-                                        name: "Up",
+                                        name: "上传",
                                         data: n.value,
                                         type: "line",
                                         areaStyle: {},
@@ -2148,7 +2148,7 @@ var eF = Fa(Kt => {
                     ref_key: "el",
                     ref: u,
                     class: "echart"
-                }, null, 512), t("div", Li, [w(c) ? (i(), r("span", Mi, "Up: " + h(w(c)), 1)) : C("", !0), w(p) ? (i(), r("span", Oi, "Down: " + h(w(p)), 1)) : C("", !0)])]))
+                }, null, 512), t("div", Li, [w(c) ? (i(), r("span", Mi, "上传：" + h(w(c)), 1)) : C("", !0), w(p) ? (i(), r("span", Oi, "下载：" + h(w(p)), 1)) : C("", !0)])]))
             }
         });
     var qi = Y(Ni, [
@@ -2343,7 +2343,7 @@ var eF = Fa(Kt => {
         F = e => jt(e);
     F.Loading = (e, a) => jt({
         type: "loading",
-        message: e || "Loading...",
+        message: e || "正在加载……",
         duration: 0,
         countdown: a || 0
     });
@@ -2396,11 +2396,11 @@ var eF = Fa(Kt => {
                         };
                     setTimeout(p, 3e3)
                 }).catch(c => {
-                    s == 0 && (s = 1, n("Installation failed" + c))
+                    s == 0 && (s = 1, n("安装失败" + c))
                 })
             }),
             checkAndInstallApp: (e, a, o) => T(Kt, null, function* () {
-                let n = F.Loading("Scanning...");
+                let n = F.Loading("正在扫描……");
                 try {
                     const s = yield S.App.Check.POST({
                         name: e
@@ -2414,12 +2414,12 @@ var eF = Fa(Kt => {
                         else if (c) {
                             if (c.status == "installed") return !0;
                             if (confirm(`It has been detected that you have not installed ${a} plug-in, do you want to install it?`)) {
-                                n = F.Loading("Installing...");
+                                n = F.Loading("正在安装……");
                                 const f = yield ct.installApp(o || e);
                                 if (n.Close(), f) return !0;
-                                F.Error("Installation failed or timed out, please check the software sources or try again later")
+                                F.Error("安装失败或超时，请检查软件源或稍后重试")
                             }
-                        } else F.Warning("Checking plugin status failed")
+                        } else F.Warning("检查插件状态失败")
                     }
                     return !1
                 } catch (s) {
@@ -2503,7 +2503,7 @@ var eF = Fa(Kt => {
                     key: 1
                 }, [o.value ? (i(), r("div", _r, [t("div", hr, [xr, t("div", kr, h(e.title), 1), t("button", {
                     class: "close",
-                    title: "Close",
+                    title: "关闭",
                     onClick: n
                 }, [D(br)])]), t("div", wr, [Dt(s.$slots, "default", {}, void 0, !0)])])) : C("", !0)], 64))]))
             }
@@ -2529,14 +2529,14 @@ var eF = Fa(Kt => {
                 }, {
                     default: V(() => [Dt(a.$slots, "default")]),
                     _: 3
-                }, 8, ["Close", "type", "title"]))
+                }, 8, ["关闭", "type", "title"]))
             }
         }),
         Bt = e => (O("data-v-c4cdcce6"), e = e(), N(), e),
         Er = ["onSubmit"],
         Cr = Bt(() => t("div", {
             class: "actioner-dns_header"
-        }, [t("span", null, "DNS Configuration")], -1)),
+        }, [t("span", null, "DNS 配置")], -1)),
         $r = {
             class: "actioner-dns_body"
         },
@@ -2545,20 +2545,20 @@ var eF = Fa(Kt => {
         },
         Br = Bt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "DNS Options")], -1)),
+        }, [t("span", null, "DNS 设置")], -1)),
         Yr = {
             class: "label-item_value"
         },
         Ar = ["disabled"],
         Sr = Bt(() => t("option", {
             value: "manual"
-        }, "Custom DNS", -1)),
+        }, "自定义 DNS", -1)),
         zr = {
             class: "label-item"
         },
         Pr = Bt(() => t("div", {
             class: "label-item_key"
-        }, "DNS Server address", -1)),
+        }, "DNS 服务器地址", -1)),
         Tr = {
             class: "label-item_value"
         },
@@ -2568,7 +2568,7 @@ var eF = Fa(Kt => {
         },
         Mr = Bt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "DNS Server address")], -1)),
+        }, [t("span", null, "DNS 服务器地址")], -1)),
         Or = {
             class: "label-item_value"
         },
@@ -2577,7 +2577,7 @@ var eF = Fa(Kt => {
         },
         qr = Bt(() => t("div", {
             class: "label-item_key"
-        }, "Alternate DNS Server address", -1)),
+        }, "备用 DNS 服务器地址", -1)),
         Vr = {
             class: "label-item_value"
         },
@@ -2595,7 +2595,7 @@ var eF = Fa(Kt => {
         },
         Wr = Bt(() => t("div", {
             class: "actioner-dns_header"
-        }, [t("span", null, "DNS Configuration")], -1)),
+        }, [t("span", null, "DNS 配置")], -1)),
         Hr = Bt(() => t("div", {
             class: "actioner-dns_body"
         }, [t("div", {
@@ -2615,7 +2615,7 @@ var eF = Fa(Kt => {
             "p-id": "5063"
         })])], -1), t("div", {
             class: "config-message"
-        }, "DNS Configuration saved")], -1)),
+        }, "DNS 配置已保存")], -1)),
         Zr = P({
             props: {
                 Close: {
@@ -2649,7 +2649,7 @@ var eF = Fa(Kt => {
                                 break
                         }
                         v.dnsProto = p.value.dnsProto, v.interfaceName = p.value.interfaceName;
-                        const g = F.Loading("Configuration...");
+                        const g = F.Loading("正在配置……");
                         try {
                             const k = yield S.Guide.DnsConfig.POST(v);
                             if (k != null && k.data) {
@@ -2657,7 +2657,7 @@ var eF = Fa(Kt => {
                                     success: x,
                                     error: E
                                 } = k == null ? void 0 : k.data;
-                                E && (l.value = E), (x == null || x == 0) && (F.Success("Configuration successfully"), o.value = 1)
+                                E && (l.value = E), (x == null || x == 0) && (F.Success("配置成功"), o.value = 1)
                             }
                         } catch (k) {
                             l.value = k
@@ -2683,7 +2683,7 @@ var eF = Fa(Kt => {
                     }, [t("option", {
                         value: "auto",
                         disabled: !w(c)
-                    }, "DNS Automatically", 8, Ar), Sr], 512), [
+                    }, "自动获取 DNS", 8, Ar), Sr], 512), [
                         [Q, p.value.dnsProto]
                     ])])]), p.value.dnsProto == "manual" ? (i(), r(L, {
                         key: 0
@@ -2691,7 +2691,7 @@ var eF = Fa(Kt => {
                         key: 0
                     }, j(p.value.manualDnsIp, (k, x) => (i(), r("div", zr, [Pr, t("div", Tr, [z(t("input", {
                         type: "text",
-                        placeholder: "Please enter DNS Address",
+                        placeholder: "请输入 DNS 地址",
                         "onUpdate:modelValue": E => p.value.manualDnsIp[x] = E
                     }, null, 8, Ir), [
                         [W, p.value.manualDnsIp[x], void 0, {
@@ -2701,7 +2701,7 @@ var eF = Fa(Kt => {
                         key: 1
                     }, [t("div", Lr, [Mr, t("div", Or, [z(t("input", {
                         type: "text",
-                        placeholder: "Please enter DNS Address",
+                        placeholder: "请输入 DNS 地址",
                         required: "",
                         "onUpdate:modelValue": g[1] || (g[1] = k => f.value = k)
                     }, null, 512), [
@@ -2710,7 +2710,7 @@ var eF = Fa(Kt => {
                         }]
                     ])])]), t("div", Nr, [qr, t("div", Vr, [z(t("input", {
                         type: "text",
-                        placeholder: "Alternate DNS Address",
+                        placeholder: "备用 DNS 地址",
                         "onUpdate:modelValue": g[2] || (g[2] = k => d.value = k)
                     }, null, 512), [
                         [W, d.value, void 0, {
@@ -2719,17 +2719,17 @@ var eF = Fa(Kt => {
                     ])])])], 64))], 64)) : C("", !0), l.value ? (i(), r("div", Gr, h(l.value), 1)) : C("", !0)]), t("div", jr, [t("button", {
                         class: "cbi-button cbi-button-remove app-btn app-back",
                         onClick: b
-                    }, "Dismiss"), t("button", {
+                    }, "取消"), t("button", {
                         class: "cbi-button cbi-button-positive app-btn",
                         disabled: u.value
-                    }, "Save", 8, Rr)])], 40, Er)) : o.value == 1 ? (i(), r("div", Ur, [Wr, Hr, t("div", {
+                    }, "保存", 8, Rr)])], 40, Er)) : o.value == 1 ? (i(), r("div", Ur, [Wr, Hr, t("div", {
                         class: "actioner-dns_footer"
                     }, [t("button", {
                         class: "cbi-button cbi-button-remove app-btn app-back",
                         onClick: _
-                    }, "Exit")])])) : C("", !0)]),
+                    }, "退出")])])) : C("", !0)]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var Jr = Y(Zr, [
@@ -3141,7 +3141,7 @@ var eF = Fa(Kt => {
         $s = ["onSubmit"],
         Ds = Rt(() => t("div", {
             class: "actioner-dns_header"
-        }, [t("span", null, "Software Source Configuration")], -1)),
+        }, [t("span", null, "软件源配置")], -1)),
         Bs = {
             class: "actioner-dns_body"
         },
@@ -3150,7 +3150,7 @@ var eF = Fa(Kt => {
         },
         As = Rt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Current software source")], -1)),
+        }, [t("span", null, "当前软件源")], -1)),
         Ss = {
             class: "label-item_value"
         },
@@ -3162,14 +3162,14 @@ var eF = Fa(Kt => {
         },
         Ts = Rt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Change software source")], -1)),
+        }, [t("span", null, "更换软件源")], -1)),
         Is = {
             class: "label-item_value"
         },
         Ls = Rt(() => t("option", {
             selected: "true",
             value: ""
-        }, "Please select a software source", -1)),
+        }, "请选择软件源", -1)),
         Ms = ["value"],
         Os = {
             class: "actioner-dns_footer"
@@ -3183,7 +3183,7 @@ var eF = Fa(Kt => {
             class: "actioner-dns_header"
         }, [t("span", {
             class: "softsource_tit"
-        }, "Software Source Configuration")], -1)),
+        }, "软件源配置")], -1)),
         Gs = {
             class: "actioner-dns_body"
         },
@@ -3192,7 +3192,7 @@ var eF = Fa(Kt => {
         },
         Rs = Rt(() => t("p", {
             class: "successed"
-        }, "Configuration successfully", -1)),
+        }, "配置成功", -1)),
         Us = P({
             props: {
                 Close: {
@@ -3225,7 +3225,7 @@ var eF = Fa(Kt => {
                         u.preventDefault(), a.Close && a.Close()
                     },
                     d = u => {
-                        const m = F.Loading("Configuring...");
+                        const m = F.Loading("正在配置……");
                         S.Guide.SoftSource.POST({
                             softSourceIdentity: n.value
                         }).then(b => {
@@ -3235,7 +3235,7 @@ var eF = Fa(Kt => {
                                     return
                                 } else if (b.data.error) throw b.data.error
                             }
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).catch(b => {
                             F.Error(b)
                         }).finally(() => m.Close())
@@ -3267,18 +3267,18 @@ var eF = Fa(Kt => {
                         ])])])]), t("div", Os, [t("button", {
                             class: "cbi-button cbi-button-apply app-btn",
                             disabled: n.value == ""
-                        }, "Save & Apply", 8, Ns), t("button", {
+                        }, "保存并应用", 8, Ns), t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: f
-                        }, "Cancel")])], 40, $s)) : C("", !0), o.value == 1 ? (i(), r("form", qs, [Vs, t("div", Gs, [t("div", js, [D(De)]), Rs, t("div", {
+                        }, "取消")])], 40, $s)) : C("", !0), o.value == 1 ? (i(), r("form", qs, [Vs, t("div", Gs, [t("div", js, [D(De)]), Rs, t("div", {
                             class: "btns"
                         }, [t("button", {
                             class: "cbi-button cbi-button-apply softsource_successed",
                             onClick: l
-                        }, "Exit")])])])) : C("", !0)]
+                        }, "退出")])])])) : C("", !0)]
                     }),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var Ws = Y(Us, [
@@ -3360,7 +3360,7 @@ var eF = Fa(Kt => {
         },
         td = ut(() => t("span", {
             class: "container_success"
-        }, "Connected", -1)),
+        }, "已连接", -1)),
         ed = {
             class: "container_time"
         },
@@ -3411,7 +3411,7 @@ var eF = Fa(Kt => {
         },
         id = ut(() => t("span", {
             class: "container_failure"
-        }, "DNS Mistake", -1)),
+        }, "DNS 错误", -1)),
         rd = {
             class: "container_time"
         },
@@ -3462,7 +3462,7 @@ var eF = Fa(Kt => {
         },
         ld = ut(() => t("span", {
             class: "container_failure"
-        }, "Software Source Error", -1)),
+        }, "软件源错误", -1)),
         cd = {
             class: "container_time"
         },
@@ -3513,7 +3513,7 @@ var eF = Fa(Kt => {
         },
         bd = ut(() => t("span", {
             class: "container_failure"
-        }, "Disconnected", -1)),
+        }, "未连接", -1)),
         vd = {
             class: "container_time"
         },
@@ -3558,7 +3558,7 @@ var eF = Fa(Kt => {
             class: "app-container_status-info"
         }, [t("span", {
             class: "container_failure"
-        }, "Checking...")], -1)),
+        }, "正在检查……")], -1)),
         xd = [_d, hd],
         kd = {
             class: "app-container_status-label_item",
@@ -3574,14 +3574,14 @@ var eF = Fa(Kt => {
         },
         yd = {
             class: "more_icon",
-            title: "View device information"
+            title: "查看设备信息"
         },
         Fd = {
             class: "DeviceBlock"
         },
         Ed = ut(() => t("li", null, [t("a", {
             href: "/cgi-bin/luci/admin/status/routes"
-        }, "Device Routing")], -1)),
+        }, "路由设备")], -1)),
         Cd = {
             class: "app-container_status-container_body"
         },
@@ -3635,14 +3635,14 @@ var eF = Fa(Kt => {
         },
         Yd = ut(() => t("span", {
             class: "devise"
-        }, "Online Users", -1)),
+        }, "在线设备", -1)),
         Ad = ut(() => t("em", null, null, -1)),
         Sd = {
             class: "app-container_status-container"
         },
         zd = {
             class: "more_icon",
-            title: "Speed test"
+            title: "测速"
         },
         Pd = {
             class: "DeviceBlock"
@@ -3672,15 +3672,15 @@ var eF = Fa(Kt => {
         Vd = {
             class: "app-container_title"
         },
-        Gd = ut(() => t("span", null, "Network Interfaces", -1)),
+        Gd = ut(() => t("span", null, "网络接口", -1)),
         jd = {
             class: "more_icon",
-            title: "View network interface information"
+            title: "查看网络接口信息"
         },
         Rd = {
             class: "DeviceBlock"
         },
-        Ud = U("Network Port Configuration"),
+        Ud = U("网口配置"),
         Wd = {
             class: "app-container_body"
         },
@@ -3710,20 +3710,20 @@ var eF = Fa(Kt => {
                     u = $ => {
                         switch ($) {
                             case "pppoe":
-                                return "PPPoE Client";
+                                return "PPPoE 拨号";
                             case "static":
-                                return "Static network";
+                                return "静态地址";
                             case "dhcp":
-                                return "DHCP Client"
+                                return "DHCP 客户端"
                         }
                         return $ && $.toUpperCase()
                     },
                     m = $ => {
                         switch ($) {
                             case "manual":
-                                return "Manual";
+                                return "手动";
                             case "auto":
-                                return "Automatic";
+                                return "自动";
                             default:
                                 return ""
                         }
@@ -3766,9 +3766,9 @@ var eF = Fa(Kt => {
                             (q = ($ = G == null ? void 0 : G.data) == null ? void 0 : $.result) != null && q.port ? ss({
                                 port: G.data.result.port,
                                 setup: 0
-                            }) : ((H = G == null ? void 0 : G.data) == null ? void 0 : H.success) == 0 ? location.href = "/cgi-bin/luci/admin/services/homebox" : F.Warning("Startup failed")
+                            }) : ((H = G == null ? void 0 : G.data) == null ? void 0 : H.success) == 0 ? location.href = "/cgi-bin/luci/admin/services/homebox" : F.Warning("启动失败")
                         } catch (G) {
-                            F.Warning("Startup failed")
+                            F.Warning("启动失败")
                         }
                     }),
                     B = () => {
@@ -3792,7 +3792,7 @@ var eF = Fa(Kt => {
                         onClick: g
                     }), t("ul", null, [Ed, t("li", null, [t("a", {
                         onClick: E
-                    }, "Bandwidth Monitoring")])])], 512), [
+                    }, "带宽监控")])])], 512), [
                         [wt, p.value]
                     ]), t("div", Cd, [$d, t("div", Dd, [t("span", Bd, h(((Z = (G = w(c)) == null ? void 0 : G.devices) == null ? void 0 : Z.length) || 0), 1), Yd])])])])]), Ad, t("div", Sd, [t("span", zd, [D($t, {
                         onClick: k
@@ -3805,7 +3805,7 @@ var eF = Fa(Kt => {
                         onClick: B
                     }, "\u5916\u7F51\u6D4B\u901F")])])], 512), [
                         [wt, f.value]
-                    ]), t("div", Td, [t("span", null, "IP Address\uFF08" + h(w(s).defaultInterface) + "\uFF09", 1)]), t("div", Id, [t("span", null, " IPv4\uFF1A " + h(w(s).ipv4addr) + " \uFF08" + h(u(w(s).proto || "")) + "\uFF09 ", 1)]), t("div", Ld, [t("span", null, "IPv6\uFF1A" + h(w(s).ipv6addr), 1)]), t("div", IPd, [t("span", null, "Public\uFF1A" + h(w(s).ipv6addr), 1)]), t("div", Md, [t("span", null, "DNS\uFF08" + h(m(w(s).dnsProto)) + "\uFF09", 1)]), (i(!0), r(L, null, j(w(s).dnsList, ht => (i(), r("div", Od, [t("span", null, h(ht), 1)]))), 256))]), Nd, t("div", qd, [t("div", Vd, [Gd, t("span", jd, [D($t, {
+                    ]), t("div", Td, [t("span", null, "IP 地址（" + h(w(s).defaultInterface) + "\uFF09", 1)]), t("div", Id, [t("span", null, " IPv4\uFF1A " + h(w(s).ipv4addr) + " \uFF08" + h(u(w(s).proto || "")) + "\uFF09 ", 1)]), t("div", Ld, [t("span", null, "IPv6\uFF1A" + h(w(s).ipv6addr), 1)]), t("div", IPd, [t("span", null, "公网：" + h(w(s).ipv6addr), 1)]), t("div", Md, [t("span", null, "DNS\uFF08" + h(m(w(s).dnsProto)) + "\uFF09", 1)]), (i(!0), r(L, null, j(w(s).dnsList, ht => (i(), r("div", Od, [t("span", null, h(ht), 1)]))), 256))]), Nd, t("div", qd, [t("div", Vd, [Gd, t("span", jd, [D($t, {
                         onClick: x
                     })]), z(t("div", Rd, [t("div", {
                         class: "menu_background",
@@ -3928,7 +3928,7 @@ var eF = Fa(Kt => {
             class: "action-header"
         }, [t("div", {
             class: "action-header_title"
-        }, "Hard Disk Configuration")], -1)),
+        }, "硬盘配置")], -1)),
         x0 = {
             class: "action-body"
         },
@@ -4037,7 +4037,7 @@ var eF = Fa(Kt => {
         },
         C0 = Yt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Target partition")], -1)),
+        }, [t("span", null, "目标分区")], -1)),
         $0 = {
             class: "label-item_path"
         },
@@ -4046,7 +4046,7 @@ var eF = Fa(Kt => {
         },
         B0 = Yt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Formatting options")], -1)),
+        }, [t("span", null, "格式化选项")], -1)),
         Y0 = {
             class: "label-item_value"
         },
@@ -4057,7 +4057,7 @@ var eF = Fa(Kt => {
         },
         z0 = Yt(() => t("option", {
             value: "format"
-        }, "Format", -1)),
+        }, "格式化", -1)),
         P0 = {
             key: 1,
             value: "default"
@@ -4108,7 +4108,7 @@ var eF = Fa(Kt => {
         })])], -1)),
         R0 = Yt(() => t("div", {
             class: "action-body_msg"
-        }, "Formatted Successfully", -1)),
+        }, "格式化成功", -1)),
         U0 = {
             key: 0,
             class: "action-body_info"
@@ -4117,7 +4117,7 @@ var eF = Fa(Kt => {
             key: 1,
             class: "action-body_info"
         },
-        H0 = U("The partition has been successfully initialized to "),
+        H0 = U("分区已成功初始化为 "),
         Z0 = {
             class: "btns"
         },
@@ -4169,7 +4169,7 @@ var eF = Fa(Kt => {
                                 b();
                                 return;
                             default:
-                                F.Warning("Please select a line");
+                                F.Warning("请选择一项");
                                 return
                         }
                     },
@@ -4180,7 +4180,7 @@ var eF = Fa(Kt => {
                             s(x);
                             return
                         }
-                        F.Warning("Path not recognized")
+                        F.Warning("无法识别路径")
                     },
                     _ = () => {
                         const x = a.disk,
@@ -4192,23 +4192,23 @@ var eF = Fa(Kt => {
                             return
                         }
                         if (x) {
-                            if (!confirm(`WARNING: This operation will initialize ${x.venderModel} hard disk and create partitions, please operate with caution`) || !confirm("Are you sure to initialize?")) return;
+                            if (!confirm(`WARNING: This operation will initialize ${x.venderModel} hard disk and create partitions, please operate with caution`) || !confirm("确定要初始化吗？")) return;
                             v(x);
                             return
                         }
-                        F.Warning("Unrecognized data")
+                        F.Warning("无法识别的数据")
                     },
                     v = x => T(this, null, function* () {
                         if (x.name == null || x.path == "") {
-                            F.Warning("Can't get device name");
+                            F.Warning("无法获取设备名称");
                             return
                         }
                         if (x.path == null || x.path == "") {
-                            F.Warning("Can't get device path");
+                            F.Warning("无法获取设备路径");
                             return
                         }
                         c.value = !0;
-                        const E = F.Loading("Initializing...");
+                        const E = F.Loading("正在初始化……");
                         try {
                             const A = yield S.Nas.Disk.Init.POST({
                                 name: x.name,
@@ -4219,7 +4219,7 @@ var eF = Fa(Kt => {
                                     result: B,
                                     error: $
                                 } = A == null ? void 0 : A.data;
-                                $ && F.Warning($), B && (B.errorInfo ? F.Warning(B.errorInfo) : (F.Success("Initialization successfully"), B.childrens && B.childrens.length > 0 && (u.value = B.childrens[0]), l.value = B, f(1)))
+                                $ && F.Warning($), B && (B.errorInfo ? F.Warning(B.errorInfo) : (F.Success("初始化成功"), B.childrens && B.childrens.length > 0 && (u.value = B.childrens[0]), l.value = B, f(1)))
                             }
                         } catch (A) {
                             F.Error(A)
@@ -4228,11 +4228,11 @@ var eF = Fa(Kt => {
                     }),
                     g = x => T(this, null, function* () {
                         if (x.path == null || x.path == "") {
-                            F.Warning("Can't get partition path");
+                            F.Warning("无法获取分区路径");
                             return
                         }
                         c.value = !0;
-                        const E = F.Loading("Formatting...");
+                        const E = F.Loading("正在格式化……");
                         try {
                             const A = yield S.Nas.Disk.Partition.Format.POST({
                                 path: x.path,
@@ -4244,7 +4244,7 @@ var eF = Fa(Kt => {
                                     result: B,
                                     error: $
                                 } = A == null ? void 0 : A.data;
-                                $ && F.Warning($), B && (F.Success("Formatted successfully"), u.value = B, f(1))
+                                $ && F.Warning($), B && (F.Success("格式化成功"), u.value = B, f(1))
                             }
                         } catch (A) {
                             F.Error(A)
@@ -4256,7 +4256,7 @@ var eF = Fa(Kt => {
                             s(u.value.mountPoint);
                             return
                         }
-                        F.Warning("Failed to read result")
+                        F.Warning("读取结果失败")
                     };
                 return (x, E) => (i(), M(et, {
                     type: 1
@@ -4275,21 +4275,21 @@ var eF = Fa(Kt => {
                                 "onUpdate:modelValue": E[0] || (E[0] = B => d.value = B),
                                 required: "",
                                 disabled: e.action == "disk"
-                            }, [e.mount != null ? (i(), r("option", S0, "Please select an option")) : C("", !0), z0, e.mount != null ? (i(), r("option", P0, "Use original file system without formatting")) : C("", !0)], 8, A0), [
+                            }, [e.mount != null ? (i(), r("option", S0, "请选择一个选项")) : C("", !0), z0, e.mount != null ? (i(), r("option", P0, "使用原有文件系统，不进行格式化")) : C("", !0)], 8, A0), [
                                 [Q, d.value]
-                            ])]), t("div", T0, [d.value == "format" ? (i(), r("p", I0, "Formatted as EXT4 file system, the transfer speed is faster")) : d.value == "default" ? (i(), r("p", L0)) : C("", !0)])])]), t("div", M0, [O0, t("button", {
+                            ])]), t("div", T0, [d.value == "format" ? (i(), r("p", I0, "格式化为 EXT4 文件系统，传输速度更快")) : d.value == "default" ? (i(), r("p", L0)) : C("", !0)])])]), t("div", M0, [O0, t("button", {
                                 class: "cbi-button cbi-button-remove app-btn app-back",
                                 onClick: n,
                                 type: "button",
                                 disabled: c.value
-                            }, "Cancel", 8, N0), t("button", {
+                            }, "取消", 8, N0), t("button", {
                                 class: "cbi-button cbi-button-apply app-btn app-next",
                                 disabled: c.value
-                            }, "Next", 8, q0)])], 40, _0)) : p.value == 1 ? (i(), r("div", V0, [t("div", G0, [j0, R0, l.value ? (i(), r("div", U0, [U(h(l.value.venderModel) + " has been successfully formatted and mount to ", 1), t("a", null, h((A = u.value) == null ? void 0 : A.mountPoint), 1)])) : C("", !0), u.value ? (i(), r("div", W0, [H0, t("a", null, h(u.value.mountPoint), 1)])) : C("", !0), t("div", Z0, [t("button", {
+                            }, "下一步", 8, q0)])], 40, _0)) : p.value == 1 ? (i(), r("div", V0, [t("div", G0, [j0, R0, l.value ? (i(), r("div", U0, [U(h(l.value.venderModel) + " 已成功格式化并挂载到 ", 1), t("a", null, h((A = u.value) == null ? void 0 : A.mountPoint), 1)])) : C("", !0), u.value ? (i(), r("div", W0, [H0, t("a", null, h(u.value.mountPoint), 1)])) : C("", !0), t("div", Z0, [t("button", {
                                 class: "cbi-button cbi-button-apply app-btn app-next",
                                 type: "button",
                                 onClick: k
-                            }, h(e.action == "nas" ? "Next" : "Finish"), 1)])])])) : C("", !0)]
+                            }, h(e.action == "nas" ? "下一步" : "完成"), 1)])])])) : C("", !0)]
                         }),
                         _: 1
                     })]),
@@ -4322,7 +4322,7 @@ var eF = Fa(Kt => {
             class: "action-header"
         }, [t("div", {
             class: "action-header_title"
-        }, "Mount Disk Configuration")], -1)),
+        }, "磁盘挂载配置")], -1)),
         tu = {
             class: "action-body"
         },
@@ -4431,7 +4431,7 @@ var eF = Fa(Kt => {
         },
         ru = Ot(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Target partition")], -1)),
+        }, [t("span", null, "目标分区")], -1)),
         su = {
             class: "label-item_path"
         },
@@ -4440,7 +4440,7 @@ var eF = Fa(Kt => {
         },
         uu = Ot(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Mount point")], -1)),
+        }, [t("span", null, "挂载点")], -1)),
         lu = {
             class: "label-item_value"
         },
@@ -4479,7 +4479,7 @@ var eF = Fa(Kt => {
         })])], -1)),
         _u = Ot(() => t("div", {
             class: "action-body_msg"
-        }, "Mounted Successfully", -1)),
+        }, "挂载成功", -1)),
         hu = {
             key: 0,
             class: "action-body_info"
@@ -4530,19 +4530,19 @@ var eF = Fa(Kt => {
                     u = () => T(this, null, function* () {
                         const v = a.mount;
                         if (v == null) {
-                            F.Warning("Can't get partition");
+                            F.Warning("无法获取分区");
                             return
                         }
                         if (v.path == null || v.path == "") {
-                            F.Warning("Can't get partition path");
+                            F.Warning("无法获取分区路径");
                             return
                         }
                         if (v.uuid == null || v.uuid == "") {
-                            F.Warning("The partition id cannot be obtained");
+                            F.Warning("无法获取分区编号");
                             return
                         }
                         c.value = !0;
-                        const g = F.Loading("Mounting...");
+                        const g = F.Loading("正在挂载……");
                         try {
                             const k = yield S.Nas.Disk.Partition.Mount.POST({
                                 path: v.path,
@@ -4554,7 +4554,7 @@ var eF = Fa(Kt => {
                                     result: x,
                                     error: E
                                 } = k == null ? void 0 : k.data;
-                                E && F.Warning(E), x && (F.Success("Mounted successfully"), l.value = x, d(1))
+                                E && F.Warning(E), x && (F.Success("挂载成功"), l.value = x, d(1))
                             }
                         } catch (k) {
                             F.Error(k)
@@ -4566,7 +4566,7 @@ var eF = Fa(Kt => {
                             s(l.value.mountPoint);
                             return
                         }
-                        F.Warning("Failed to read result")
+                        F.Warning("读取结果失败")
                     },
                     b = () => {};
                 return (v, g) => (i(), M(et, {
@@ -4593,16 +4593,16 @@ var eF = Fa(Kt => {
                                 class: "cbi-button cbi-button-remove app-btn app-back",
                                 disabled: c.value,
                                 onClick: n
-                            }, "Dismiss", 8, fu), t("button", {
+                            }, "取消", 8, fu), t("button", {
                                 class: "cbi-button cbi-button-apply app-btn app-next",
                                 onClick: u,
                                 type: "button",
                                 disabled: c.value
-                            }, "Next", 8, mu)])], 40, K0)) : p.value == 1 ? (i(), r("div", bu, [t("div", vu, [gu, _u, l.value ? (i(), r("div", hu, [U("Partition " + h(l.value.path) +" was successful mounted to ", 1), t("a", null, h(l.value.mountPoint), 1)])) : C("", !0), t("div", xu, [t("button", {
+                            }, "下一步", 8, mu)])], 40, K0)) : p.value == 1 ? (i(), r("div", bu, [t("div", vu, [gu, _u, l.value ? (i(), r("div", hu, [U("分区 " + h(l.value.path) +" 已成功挂载到 ", 1), t("a", null, h(l.value.mountPoint), 1)])) : C("", !0), t("div", xu, [t("button", {
                                 class: "cbi-button cbi-button-apply app-btn app-next",
                                 type: "button",
                                 onClick: m
-                            }, h(e.action == "nas" ? "Finish" : "Next"), 1)])])])) : C("", !0)]
+                            }, h(e.action == "nas" ? "完成" : "下一步"), 1)])])])) : C("", !0)]
                         }),
                         _: 1
                     })]),
@@ -4710,7 +4710,7 @@ var eF = Fa(Kt => {
             },
             setup(e) {
                 const a = e,
-                    o = R(() => a.part.filesystem == "No FileSystem"),
+                    o = R(() => a.part.filesystem == "无文件系统"),
                     n = R(() => o.value || !a.part.isSystemRoot && a.part.mountPoint && (a.part.isReadOnly || a.part.filesystem == "ntfs")),
                     s = function () {
                         Be({
@@ -4746,14 +4746,14 @@ var eF = Fa(Kt => {
                                     result: m,
                                     error: b
                                 } = u == null ? void 0 : u.data;
-                                b && F.Warning(b), m && (F.Success("Mounted uccessfully"), location.reload())
+                                b && F.Warning(b), m && (F.Success("挂载成功"), location.reload())
                             }
                         } catch (u) {
                             F.Error(u)
                         }
                         l.Close()
                     }),
-                    f = R(() => a.part.filesystem == "Free Space"),
+                    f = R(() => a.part.filesystem == "可用空间"),
                     d = R(() => {
                         const l = a.part.mountPoint ? a.part.mountPoint : "";
                         return l.indexOf("/mnt/") == 0 ? "/cgi-bin/luci/admin/services/linkease/file/?path=/" + l.substring(5) : "/cgi-bin/luci/admin/services/linkease/file/?path=/root" + l
@@ -4761,27 +4761,27 @@ var eF = Fa(Kt => {
                 return (l, u) => {
                     var b;
                     const m = X("progress-item");
-                    return i(), r("div", yu, [t("li", Fu, [t("div", Eu, [w(f) ? (i(), r("span", Cu, "Not partitioned")) : (i(), r("span", $u, h(e.part.name) + h(e.part.mountPoint ? "" : w(o) ? "(Unformatted)" : "(No mounted)"), 1)), e.part.isSystemRoot ? (i(), r("span", Du, " (System partition)")) : C("", !0)]), t("div", Bu, [e.part.mountPoint || w(f) ? (i(), r("div", Yu, [t("div", Au, [D(m, {
+                    return i(), r("div", yu, [t("li", Fu, [t("div", Eu, [w(f) ? (i(), r("span", Cu, "未分区")) : (i(), r("span", $u, h(e.part.name) + h(e.part.mountPoint ? "" : w(o) ? "（未格式化）" : "（未挂载）"), 1)), e.part.isSystemRoot ? (i(), r("span", Du, "（系统分区）")) : C("", !0)]), t("div", Bu, [e.part.mountPoint || w(f) ? (i(), r("div", Yu, [t("div", Au, [D(m, {
                         value: w(f) || !e.part.usage ? 0 : e.part.usage,
-                        text: w(f) ? "Unpartitioned (" + e.part.total + ")" : e.part.used + "/" + e.part.total,
+                        text: w(f) ? "未分区（" + e.part.total + ")" : e.part.used + "/" + e.part.total,
                         style: {
                             backgroundColor: "#767676"
                         }
                     }, null, 8, ["value", "text"])])])) : w(o) ? C("", !0) : (i(), r("div", Su, [t("div", {
                         class: "value-data buttondiv",
                         onClick: c
-                    }, "Manual mount")])), w(f) ? (i(), r("button", {
+                    }, "手动挂载")])), w(f) ? (i(), r("button", {
                         key: 2,
                         class: "cbi-button cbi-button-apply",
                         onClick: p
-                    }, "Partition and format")) : w(n) ? (i(), r("button", {
+                    }, "分区并格式化")) : w(n) ? (i(), r("button", {
                         key: 3,
                         class: "cbi-button cbi-button-apply",
                         onClick: s
-                    }, "Format Partition")) : C("", !0)])]), e.part.mountPoint ? (i(), r("li", zu, [t("span", Pu, [t("a", {
+                    }, "格式化分区")) : C("", !0)])]), e.part.mountPoint ? (i(), r("li", zu, [t("span", Pu, [t("a", {
                         href: w(d),
                         target: "_blank"
-                    }, h(e.part.mountPoint), 9, Tu)]), t("div", Iu, [t("div", Lu, [t("div", null, "Disk status: " + h(e.part.isReadOnly ? "Read only" : "Read and write"), 1), !e.part.isSystemRoot && e.part.isReadOnly ? (i(), r("div", Mu, [D(gt), Ou])) : C("", !0)]), t("div", Nu, [t("div", null, "Disk format: " + h((b = e.part.filesystem) == null ? void 0 : b.toUpperCase()), 1), e.part.filesystem == "ntfs" ? (i(), r("div", qu, [D(gt), Vu])) : C("", !0)])])])) : C("", !0)])
+                    }, h(e.part.mountPoint), 9, Tu)]), t("div", Iu, [t("div", Lu, [t("div", null, "磁盘状态：" + h(e.part.isReadOnly ? "只读" : "可读写"), 1), !e.part.isSystemRoot && e.part.isReadOnly ? (i(), r("div", Mu, [D(gt), Ou])) : C("", !0)]), t("div", Nu, [t("div", null, "磁盘格式：" + h((b = e.part.filesystem) == null ? void 0 : b.toUpperCase()), 1), e.part.filesystem == "ntfs" ? (i(), r("div", qu, [D(gt), Vu])) : C("", !0)])])])) : C("", !0)])
                 }
             }
         });
@@ -4798,7 +4798,7 @@ var eF = Fa(Kt => {
         },
         Wu = ua(() => t("div", {
             class: "app-container_info"
-        }, [t("span", null, "Partition / Mount point"), t("span", null, "Capacity")], -1)),
+        }, [t("span", null, "分区 / 挂载点"), t("span", null, "容量")], -1)),
         Hu = {
             class: "app-container_body"
         },
@@ -4838,7 +4838,7 @@ var eF = Fa(Kt => {
                         name: "rotate",
                         mode: "out-in"
                     }, {
-                        default: V(() => [o.value == 0 ? (i(), r("div", Ru, [t("div", Uu, "Partition Information - " + h((e.disk.name || "?") + (e.disk.isSystemRoot ? " (System disk)" : "")), 1), t("ul", null, [t("li", null, [Wu, t("div", Hu, [(i(!0), r(L, null, j(e.disk.childrens, (f, d) => (i(), M(ju, {
+                        default: V(() => [o.value == 0 ? (i(), r("div", Ru, [t("div", Uu, "分区信息 - " + h((e.disk.name || "?") + (e.disk.isSystemRoot ? "（系统盘）" : "")), 1), t("ul", null, [t("li", null, [Wu, t("div", Hu, [(i(!0), r(L, null, j(e.disk.childrens, (f, d) => (i(), M(ju, {
                             key: d,
                             part: f,
                             disk: e.disk
@@ -4848,11 +4848,11 @@ var eF = Fa(Kt => {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: s,
                             type: "button"
-                        }, "Exit")])])) : C("", !0)]),
+                        }, "退出")])])) : C("", !0)]),
                         _: 1
                     })]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var Xu = Y(Ju, [
@@ -4904,7 +4904,7 @@ var eF = Fa(Kt => {
             href: "/cgi-bin/luci/admin/nas/smart"
         }, [t("span", {
             class: "error"
-        }, " S.M.A.R.T Exception")])], -1)),
+        }, " S.M.A.R.T 异常")])], -1)),
         dl = [sl],
         ul = {
             key: 1,
@@ -4918,7 +4918,7 @@ var eF = Fa(Kt => {
         },
         pl = fe(() => t("div", {
             class: "disk-item-tooltip"
-        }, [t("span", null, "Only count mounted partitions")], -1)),
+        }, [t("span", null, "仅统计已挂载的分区")], -1)),
         fl = {
             class: "disk_icon"
         },
@@ -4945,7 +4945,7 @@ var eF = Fa(Kt => {
             class: "tooltip-text tooltip-top"
         }, [t("span", {
             class: "disk_dir_tip"
-        }, "There is an exception in partition, click partition list to view the error")])], -1)),
+        }, "分区存在异常，请点击分区列表查看错误")])], -1)),
         xl = {
             key: 2,
             class: "disk-item load"
@@ -4997,7 +4997,7 @@ var eF = Fa(Kt => {
             },
             setup(e) {
                 const a = e,
-                    o = R(() => a.disk.errorInfo ? "error" : a.disk.childrens == null || a.disk.childrens.length == 0 || a.disk.childrens.length == 1 && a.disk.childrens[0].filesystem == "No FileSystem" ? "load" : a.disk.childrens.filter(f => f.mountPoint).length == 0 ? "unmounted" : "success"),
+                    o = R(() => a.disk.errorInfo ? "error" : a.disk.childrens == null || a.disk.childrens.length == 0 || a.disk.childrens.length == 1 && a.disk.childrens[0].filesystem == "无文件系统" ? "load" : a.disk.childrens.filter(f => f.mountPoint).length == 0 ? "unmounted" : "success"),
                     n = R(() => {
                         const f = a.disk;
                         let d = f.name;
@@ -5068,7 +5068,7 @@ var eF = Fa(Kt => {
                             textAlign: "center"
                         },
                         onClick: d[2] || (d[2] = g => s())
-                    }, "Format and Mount")])])])])) : w(o) == "unmounted" ? (i(), r("li", El, [t("div", {
+                    }, "格式化并挂载")])])])])) : w(o) == "unmounted" ? (i(), r("li", El, [t("div", {
                         class: "disk-item_name",
                         title: w(n)
                     }, [t("span", null, h(w(n)), 1)], 8, Cl), t("div", $l, [((b = e.disk.childrens) == null ? void 0 : b.length) == 1 ? (i(), r("div", Dl, [t("div", Bl, [t("button", {
@@ -5078,9 +5078,9 @@ var eF = Fa(Kt => {
                             textAlign: "center"
                         },
                         onClick: d[3] || (d[3] = g => p())
-                    }, "Manual Mount")])])) : C("", !0), (((_ = e.disk.childrens) == null ? void 0 : _.length) || 0) > 1 ? (i(), r("div", Yl, [t("div", Al, [t("button", {
+                    }, "手动挂载")])])) : C("", !0), (((_ = e.disk.childrens) == null ? void 0 : _.length) || 0) > 1 ? (i(), r("div", Yl, [t("div", Al, [t("button", {
                         onClick: d[4] || (d[4] = g => c())
-                    }, "Manual Mount")])])) : C("", !0), t("div", Sl, [(((v = e.disk.childrens) == null ? void 0 : v.length) || 0) > 1 ? (i(), r("span", {
+                    }, "手动挂载")])])) : C("", !0), t("div", Sl, [(((v = e.disk.childrens) == null ? void 0 : v.length) || 0) > 1 ? (i(), r("span", {
                         key: 0,
                         class: "disk_infoicon",
                         onClick: d[5] || (d[5] = g => c())
@@ -5101,13 +5101,13 @@ var eF = Fa(Kt => {
         Il = {
             class: "disk_info"
         },
-        Ll = U("Disk"),
+        Ll = U("磁盘"),
         Ml = {
             class: "app-container_tool"
         },
         Ol = {
             class: "more_icon",
-            title: "View disk management information"
+            title: "查看磁盘管理信息"
         },
         Nl = {
             class: "DeviceBlock"
@@ -5125,9 +5125,9 @@ var eF = Fa(Kt => {
             href: "/cgi-bin/luci/admin/nas/smart"
         }, "S.M.A.R.T")]), t("li", null, [t("a", {
             href: "/cgi-bin/luci/admin/system/diskman"
-        }, "Disk Manager")]), t("li", null, [t("a", {
+        }, "磁盘管理")]), t("li", null, [t("a", {
             href: "/cgi-bin/luci/admin/system/mounts"
-        }, "Mount Points")])], -1)),
+        }, "挂载点")])], -1)),
         Vl = {
             key: 0
         },
@@ -5136,13 +5136,13 @@ var eF = Fa(Kt => {
         },
         jl = ee(() => t("span", {
             class: "disk_loading_info"
-        }, "Getting disk information...", -1)),
+        }, "正在获取磁盘信息……", -1)),
         Rl = {
             key: 1
         },
         Ul = ee(() => t("div", {
             class: "app-container_info"
-        }, [t("span", null, "System Root Directory")], -1)),
+        }, [t("span", null, "系统根目录")], -1)),
         Wl = {
             class: "app-container_body"
         },
@@ -5151,7 +5151,7 @@ var eF = Fa(Kt => {
         },
         Zl = ee(() => t("div", {
             class: "app-container_info"
-        }, [t("span", null, "Mounted Disk")], -1)),
+        }, [t("span", null, "已挂载磁盘")], -1)),
         Jl = {
             class: "app-container_body"
         },
@@ -5210,7 +5210,7 @@ var eF = Fa(Kt => {
                     })]), t("div", Ml, [t("div", {
                         class: "app-container_configure",
                         onClick: p
-                    }, "File Manager"), t("span", Ol, [D($t, {
+                    }, "文件管理"), t("span", Ol, [D($t, {
                         onClick: c
                     })])]), z(t("div", Nl, [t("div", {
                         class: "menu_background",
@@ -5546,15 +5546,15 @@ var eF = Fa(Kt => {
                     },
                     m = () => {
                         if (c.value == null) {
-                            F.Warning("Please select a target hard drive");
+                            F.Warning("请选择目标硬盘");
                             return
                         }
                         if (c.value.childrens != null && c.value.childrens.length > 0 && p.value == null) {
-                            F.Warning("Please select a hard disk partition");
+                            F.Warning("请选择硬盘分区");
                             return
                         }
                         if (p.value != null && (p.value.mountPoint == null || p.value.mountPoint == "")) {
-                            F.Warning("The partition has not been mounted yet, please mount it first");
+                            F.Warning("分区尚未挂载，请先挂载");
                             return
                         }
                         o.value = !1, Be({
@@ -5806,15 +5806,15 @@ var eF = Fa(Kt => {
                 const p = () => {
                         const d = s.value;
                         if (d.rootPath == "") {
-                            F.Warning("Share path cannot be empty");
+                            F.Warning("共享路径不能为空");
                             return
                         }
                         if (d.username == "") {
-                            F.Warning("Username can not be empty");
+                            F.Warning("用户名不能为空");
                             return
                         }
                         if (d.password == "") {
-                            F.Warning("Password can not be blank");
+                            F.Warning("密码不能为空");
                             return
                         }
                         f(d)
@@ -5829,7 +5829,7 @@ var eF = Fa(Kt => {
                                     error: m,
                                     result: b
                                 } = u.data;
-                                m && F.Warning(m), b && (F.Success("Created successfully"), window.setTimeout(() => {
+                                m && F.Warning(m), b && (F.Success("创建成功"), window.setTimeout(() => {
                                     location.reload()
                                 }, 1e3))
                             }
@@ -6011,15 +6011,15 @@ var eF = Fa(Kt => {
                             return
                         }
                         if (f.shareName == "") {
-                            F.Warning("Share path cannot be empty");
+                            F.Warning("共享路径不能为空");
                             return
                         }
                         if (f.username == "") {
-                            F.Warning("Username can not be empty");
+                            F.Warning("用户名不能为空");
                             return
                         }
                         if (f.password == "") {
-                            F.Warning("Password can not be blank");
+                            F.Warning("密码不能为空");
                             return
                         }
                         const d = yt.checkSmabaUserName(f.username);
@@ -6039,7 +6039,7 @@ var eF = Fa(Kt => {
                                     error: u,
                                     result: m
                                 } = l.data;
-                                u && F.Warning(u), m && (F.Success("Created successfully"), window.setTimeout(() => {
+                                u && F.Warning(u), m && (F.Success("创建成功"), window.setTimeout(() => {
                                     location.reload()
                                 }, 1e3))
                             }
@@ -6264,7 +6264,7 @@ var eF = Fa(Kt => {
                         _: 1
                     })]),
                     _: 1
-                }, 8, ["Close"])) : C("", !0)
+                }, 8, ["关闭"])) : C("", !0)
             }
         });
     var h2 = Y(_2, [
@@ -6361,13 +6361,13 @@ var eF = Fa(Kt => {
         z2 = {
             class: "app-container_title"
         },
-        P2 = pa(() => t("span", null, "Internet Service", -1)),
+        P2 = pa(() => t("span", null, "网络服务", -1)),
         T2 = {
             class: "app-container_tool"
         },
         I2 = {
             class: "more_icon",
-            title: "View internet service information"
+            title: "查看网络服务信息"
         },
         L2 = {
             class: "DeviceBlock"
@@ -6429,12 +6429,12 @@ var eF = Fa(Kt => {
                         class: ot({
                             on: o.value == "linkease"
                         })
-                    }, "Remote Access", 2), t("button", {
+                    }, "远程访问", 2), t("button", {
                         onClick: u[1] || (u[1] = g => o.value = "samba"),
                         class: ot({
                             on: o.value == "samba"
                         })
-                    }, "IP Info", 2), t("button", {
+                    }, "IP 信息", 2), t("button", {
                         onClick: u[2] || (u[2] = g => o.value = "webdav"),
                         class: ot({
                             on: o.value == "webdav"
@@ -6464,14 +6464,14 @@ var eF = Fa(Kt => {
         },
         R2 = ve(() => t("div", {
             class: "docker-item_name"
-        }, [t("span", null, "Status")], -1)),
+        }, [t("span", null, "状态")], -1)),
         U2 = {
             key: 0,
             class: "docker-item_value"
         },
         W2 = ve(() => t("span", {
             class: "configure"
-        }, "Not Installed", -1)),
+        }, "未安装", -1)),
         H2 = [W2],
         Z2 = {
             key: 1,
@@ -6489,7 +6489,7 @@ var eF = Fa(Kt => {
         },
         e6 = ve(() => t("div", {
             class: "docker-item_name"
-        }, [t("span", null, "Directory")], -1)),
+        }, [t("span", null, "目录")], -1)),
         a6 = {
             class: "docker-item_value"
         },
@@ -6522,7 +6522,7 @@ var eF = Fa(Kt => {
                 const a = e,
                     o = R(() => {
                         var p;
-                        return ((p = a.docker) == null ? void 0 : p.status) != "not installed"
+                        return ((p = a.docker) == null ? void 0 : p.status) != "未安装"
                     }),
                     n = it({
                         enable: ((c = a.docker) == null ? void 0 : c.status) == "running",
@@ -6616,26 +6616,26 @@ var eF = Fa(Kt => {
         },
         _6 = pt(() => t("div", {
             class: "title"
-        }, "Docker Migration Wizard", -1)),
+        }, "Docker 迁移向导", -1)),
         h6 = pt(() => t("div", {
             class: "desc"
-        }, "When system root directory space is insufficient, docker root directory can be migrated to external hard disk to ensure normal operation of docker system.", -1)),
+        }, "系统根目录空间不足时，可将 Docker 数据目录迁移到外接硬盘，确保 Docker 正常运行。", -1)),
         x6 = {
             key: 1,
             class: "action format"
         },
         k6 = pt(() => t("div", {
             class: "action-header_title"
-        }, "Docker Migration Wizard", -1)),
+        }, "Docker 迁移向导", -1)),
         w6 = pt(() => t("div", {
             class: "migration-docker_desc"
-        }, "When system root directory space is insufficient, docker root directory can be migrated to external hard disk to ensure normal operation of docker system.", -1)),
+        }, "系统根目录空间不足时，可将 Docker 数据目录迁移到外接硬盘，确保 Docker 正常运行。", -1)),
         y6 = {
             class: "roots"
         },
         F6 = pt(() => t("span", {
             class: "roots_tit"
-        }, "Directory\uff1a", -1)),
+        }, "目录：", -1)),
         E6 = {
             class: "root"
         },
@@ -6644,7 +6644,7 @@ var eF = Fa(Kt => {
         },
         $6 = pt(() => t("span", {
             class: "roots_tit"
-        }, "Migrated\uff1a", -1)),
+        }, "已迁移：", -1)),
         D6 = {
             key: 0
         },
@@ -6655,7 +6655,7 @@ var eF = Fa(Kt => {
         A6 = pt(() => t("option", {
             selected: "",
             value: null
-        }, "Please select a re-location address", -1)),
+        }, "请选择迁移目标路径", -1)),
         S6 = ["value"],
         z6 = pt(() => t("option", {
             value: "useInput"
@@ -6669,7 +6669,7 @@ var eF = Fa(Kt => {
         },
         I6 = pt(() => t("span", {
             class: "tip"
-        }, "Detected that you have not mounted the external hard disk, you need to connect the hard disk and format or manually mount hard disk, and then execute Docker Migration Wizard fo migrate Docker to the target hard disk.", -1)),
+        }, "尚未挂载外接硬盘。请连接硬盘，格式化或手动挂载后，再通过 Docker 迁移向导将数据迁移到目标硬盘。", -1)),
         L6 = {
             key: 0,
             class: "action-footer"
@@ -6703,26 +6703,26 @@ var eF = Fa(Kt => {
         },
         N6 = pt(() => t("div", {
             class: "title"
-        }, "Docker Migration Wizard", -1)),
+        }, "Docker 迁移向导", -1)),
         q6 = {
             class: "finished"
         },
         V6 = pt(() => t("p", {
             class: "successed"
-        }, "Migration successfully", -1)),
+        }, "迁移成功", -1)),
         G6 = {
             key: 3,
             class: "action docker_download"
         },
         j6 = pt(() => t("div", {
             class: "title"
-        }, "Docker Migration Wizard", -1)),
+        }, "Docker 迁移向导", -1)),
         R6 = {
             class: "finished"
         },
         U6 = pt(() => t("p", {
             class: "successed"
-        }, "Destination path is not empty", -1)),
+        }, "目标路径不为空", -1)),
         W6 = {
             class: "docker_moves"
         },
@@ -6731,13 +6731,13 @@ var eF = Fa(Kt => {
         },
         Z6 = pt(() => t("label", {
             for: "move"
-        }, [t("li", {class: "option_title"}, "Replace directory"), t("li", {class: "option_info"}, "Do not overwrite the target path, only modify docker directory to target path")], -1)),
+        }, [t("li", {class: "option_title"}, "更换目录"), t("li", {class: "option_info"}, "不覆盖目标路径，仅将 Docker 数据目录设置为目标路径")], -1)),
         J6 = {
             class: "moves"
         },
         X6 = pt(() => t("label", {
             for: "cover"
-        }, [t("li", {class: "option_title"}, "Overwrite migration"), t("li", {class: "option_info"}, "Overwrite the target path, continuing to migrate will clear files under target path")], -1)),
+        }, [t("li", {class: "option_title"}, "覆盖迁移"), t("li", {class: "option_info"}, "覆盖目标路径，继续迁移将清空目标路径下的文件")], -1)),
         K6 = {
             class: "btns"
         },
@@ -6779,7 +6779,7 @@ var eF = Fa(Kt => {
                 const m = x => {
                         let E = c.value;
                         if (E == "useInput" && (E = p.value), E == null || E == "null" || E == "") return;
-                        const A = F.Loading("Migrating...");
+                        const A = F.Loading("正在迁移……");
                         S.Guide.DockerTransfer.POST({
                             path: E,
                             force: x,
@@ -6796,7 +6796,7 @@ var eF = Fa(Kt => {
                                     return
                                 } else if (B.data.error) throw B.data.error
                             }
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).catch(B => {
                             F.Error(B)
                         }).finally(() => A.Close())
@@ -6828,7 +6828,7 @@ var eF = Fa(Kt => {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             type: "button",
                             onClick: _
-                        }, "Cancel")])])) : s.value == 0 ? (i(), r("div", x6, [t("div", {
+                        }, "取消")])])) : s.value == 0 ? (i(), r("div", x6, [t("div", {
                             class: "action-header"
                         }, [k6]), t("div", {
                             class: "action-body"
@@ -6850,7 +6850,7 @@ var eF = Fa(Kt => {
                             type: "text",
                             "onUpdate:modelValue": E[1] || (E[1] = Z => p.value = Z),
                             required: "",
-                            placeholder: "Please enter migration address"
+                            placeholder: "请输入迁移目标路径"
                         }, null, 512)), [
                             [W, p.value, void 0, {
                                 trim: !0
@@ -6859,18 +6859,18 @@ var eF = Fa(Kt => {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             type: "button",
                             onClick: _
-                        }, "Dismiss"), t("button", {
+                        }, "取消"), t("button", {
                             class: "cbi-button cbi-button-apply app-btn",
                             onClick: b
-                        }, "Save & Apply")])) : (i(), r("div", M6, [t("button", {
+                        }, "保存并应用")])) : (i(), r("div", M6, [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: _
-                        }, "Close")]))])) : s.value == 1 ? (i(), r("div", O6, [N6, t("div", q6, [D(De)]), V6, t("div", {
+                        }, "关闭")]))])) : s.value == 1 ? (i(), r("div", O6, [N6, t("div", q6, [D(De)]), V6, t("div", {
                             class: "btns"
                         }, [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: v
-                        }, "Exit")])])) : s.value == 2 ? (i(), r("div", G6, [j6, t("div", R6, [D(v6)]), U6, t("div", W6, [t("div", H6, [z(t("input", {
+                        }, "退出")])])) : s.value == 2 ? (i(), r("div", G6, [j6, t("div", R6, [D(v6)]), U6, t("div", W6, [t("div", H6, [z(t("input", {
                             type: "radio",
                             id: "move",
                             name: "moves",
@@ -6889,19 +6889,19 @@ var eF = Fa(Kt => {
                         ]), X6])]), t("div", K6, [d.value ? (i(), r("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: g
-                        }, "Dismiss")) : C("", !0), t("button", {
+                        }, "取消")) : C("", !0), t("button", {
                             key: 0,
                             class: "cbi-button cbi-button-apply app-btn",
                             onClick: k
-                        }, "Apply"), d.value ? C("", !0) : (i(), r("button", {
+                        }, "应用"), d.value ? C("", !0) : (i(), r("button", {
                             key: 1,
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             type: "button",
                             onClick: v
-                        }, "Cancel"))])])) : C("", !0)]
+                        }, "取消"))])])) : C("", !0)]
                     }),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var t5 = Y(Q6, [
@@ -6938,14 +6938,14 @@ var eF = Fa(Kt => {
         r5 = {
             key: 1,
             class: "more_icon",
-            title: "View docker information"
+            title: "查看 Docker 信息"
         },
         s5 = {
             class: "DeviceBlock"
         },
         d5 = fa(() => t("ul", null, [t("li", null, [t("a", {
             href: "/cgi-bin/luci/admin/docker/overview"
-        }, "Advanced Config")])], -1)),
+        }, "高级配置")])], -1)),
         u5 = {
             key: 1,
             class: "loading_placeholder"
@@ -6982,11 +6982,11 @@ var eF = Fa(Kt => {
                         u = X("icon-loading");
                     return i(), r("div", a5, [t("div", o5, [t("span", null, [n5, D(l, {
                         type: "docker"
-                    })]), a.value ? (i(), r("div", i5, [((m = o.value) == null ? void 0 : m.status) != "not installed" ? (i(), r("div", {
+                    })]), a.value ? (i(), r("div", i5, [((m = o.value) == null ? void 0 : m.status) != "未安装" ? (i(), r("div", {
                         key: 0,
                         class: "app-container_configure",
                         onClick: c
-                    }, "Quick Config")) : C("", !0), ((b = o.value) == null ? void 0 : b.status) === "running" ? (i(), r("span", r5, [D($t, {
+                    }, "快速配置")) : C("", !0), ((b = o.value) == null ? void 0 : b.status) === "running" ? (i(), r("span", r5, [D($t, {
                         onClick: s
                     })])) : C("", !0)])) : C("", !0), z(t("div", s5, [t("div", {
                         class: "menu_background",
@@ -7551,7 +7551,7 @@ var eF = Fa(Kt => {
                                             return
                                         } else if ((Z = G.data) != null && Z.error) throw G.data.error
                                     }
-                                    throw "Unknown mistake"
+                                    throw "未知错误"
                                 }).catch(G => F.Error(G)).finally(() => H.Close())
                             }
                         })
@@ -7573,7 +7573,7 @@ var eF = Fa(Kt => {
                                             return
                                         } else if ((Z = G.data) != null && Z.error) throw G.data.error
                                     }
-                                    throw "Unknown mistake"
+                                    throw "未知错误"
                                 }).catch(G => F.Error(G)).finally(() => H.Close())
                             }
                         })
@@ -7595,7 +7595,7 @@ var eF = Fa(Kt => {
                                             return
                                         } else if ((Z = G.data) != null && Z.error) throw G.data.error
                                     }
-                                    throw "Unknown mistake"
+                                    throw "未知错误"
                                 }).catch(G => F.Error(G)).finally(() => H.Close())
                             }
                         })
@@ -7753,7 +7753,7 @@ var eF = Fa(Kt => {
                         onClick: A
                     }, "\u786E\u5B9A")])])) : C("", !0)]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var S4 = Y(A4, [
@@ -8600,7 +8600,7 @@ var eF = Fa(Kt => {
                         onClick: s
                     }, h(e.continuerTitle), 1)) : C("", !0)])])]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var cp = Y(lp, [
@@ -8774,7 +8774,7 @@ var eF = Fa(Kt => {
                     },
                     u = () => {
                         d.value = !0;
-                        const v = F.Loading("Checking...");
+                        const v = F.Loading("正在检查……");
                         S.Network.CheckPublickNet.POST({
                             ipVersion: n.value
                         }).then(g => {
@@ -8790,7 +8790,7 @@ var eF = Fa(Kt => {
                                     return
                                 }
                             }
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).catch(g => {
                             F.Error(g)
                         }).finally(() => {
@@ -8848,7 +8848,7 @@ var eF = Fa(Kt => {
                                     return
                                 }
                             }
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).catch(g => {
                             F.Error(g)
                         }).finally(() => {
@@ -8976,7 +8976,7 @@ var eF = Fa(Kt => {
                         target: o.value
                     }, null, 8, ["target"])) : C("", !0)])]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var Xp = Y(Jp, [
@@ -9121,11 +9121,11 @@ var eF = Fa(Kt => {
                     },
                     p = R(() => {
                         const d = n.value.ipv4Domain;
-                        return d != null && d != "" && d != "Stopped" ? `http://${d}` : d
+                        return d != null && d != "" && d != "已停止" ? `http://${d}` : d
                     }),
                     f = R(() => {
                         const d = n.value.ipv6Domain;
-                        return d != null && d != "" && d != "Stopped" ? `http://${d}` : d
+                        return d != null && d != "" && d != "已停止" ? `http://${d}` : d
                     });
                 return (d, l) => {
                     var m, b, _;
@@ -9137,19 +9137,19 @@ var eF = Fa(Kt => {
                     }, [t("div", {
                         class: "app-container_configure",
                         onClick: c
-                    }, "Quick Config")])]), t("ul", a7, [t("li", o7, [n7, t("div", i7, [t("a", {
+                    }, "快速配置")])]), t("ul", a7, [t("li", o7, [n7, t("div", i7, [t("a", {
                         class: "configure",
                         href: (m = n.value) == null ? void 0 : m.ddnstoDomain,
                         target: "_blank",
                         rel: "noopener noreferrer",
                         title: (b = n.value) == null ? void 0 : b.ddnstoDomain
-                    }, h((_ = n.value) == null ? void 0 : _.ddnstoDomain), 9, r7), s7])]), t("li", d7, [u7, t("div", l7, [w(p) == "Stopped" ? (i(), r("span", c7, h(w(p)), 1)) : (i(), r("a", {
+                    }, h((_ = n.value) == null ? void 0 : _.ddnstoDomain), 9, r7), s7])]), t("li", d7, [u7, t("div", l7, [w(p) == "已停止" ? (i(), r("span", c7, h(w(p)), 1)) : (i(), r("a", {
                         key: 1,
                         class: "configure",
                         href: w(p),
                         target: "_blank",
                         rel: "noopener noreferrer"
-                    }, h(w(p)), 9, p7)), w(p) ? (i(), r("a", f7, b7)) : C("", !0)])]), t("li", v7, [g7, t("div", _7, [w(f) == "Stopped" ? (i(), r("span", h7, h(w(f)), 1)) : (i(), r("a", {
+                    }, h(w(p)), 9, p7)), w(p) ? (i(), r("a", f7, b7)) : C("", !0)])]), t("li", v7, [g7, t("div", _7, [w(f) == "已停止" ? (i(), r("span", h7, h(w(f)), 1)) : (i(), r("a", {
                         key: 1,
                         class: "configure",
                         href: w(f),
@@ -9197,17 +9197,17 @@ var eF = Fa(Kt => {
         T7 = {
             class: "app-container_title"
         },
-        I7 = _t(() => t("span", null, "System", -1)),
+        I7 = _t(() => t("span", null, "系统", -1)),
         L7 = {
             class: "more_icon",
-            title: "View system information"
+            title: "查看系统信息"
         },
         M7 = {
             class: "DeviceBlock"
         },
         O7 = _t(() => t("li", null, [t("a", {
             href: "/cgi-bin/luci/admin/system/flash"
-        }, "Backup / Flahs")], -1)),
+        }, "备份 / 刷写固件")], -1)),
         N7 = _t(() => t("li", null, [t("a", {
             href: "/cgi-bin/luci/admin/store/pages/maintance"
         }, "\u63D2\u4EF6\u5907\u4EFD")], -1)),
@@ -9216,7 +9216,7 @@ var eF = Fa(Kt => {
         },
         V7 = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "CPU Heat")], -1)),
+        }, [t("span", null, "CPU 温度")], -1)),
         G7 = {
             class: "item-label_value"
         },
@@ -9225,7 +9225,7 @@ var eF = Fa(Kt => {
         },
         R7 = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "CPU Used")], -1)),
+        }, [t("span", null, "CPU 使用率")], -1)),
         U7 = {
             class: "item-label_value"
         },
@@ -9234,7 +9234,7 @@ var eF = Fa(Kt => {
         },
         H7 = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "Memory Used")], -1)),
+        }, [t("span", null, "内存使用率")], -1)),
         Z7 = {
             class: "item-label_value"
         },
@@ -9243,7 +9243,7 @@ var eF = Fa(Kt => {
         },
         X7 = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "Model")], -1)),
+        }, [t("span", null, "型号")], -1)),
         K7 = {
             class: "item-label_value"
         },
@@ -9252,7 +9252,7 @@ var eF = Fa(Kt => {
         },
         tf = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "Firmware")], -1)),
+        }, [t("span", null, "固件版本")], -1)),
         ef = {
             class: "item-label_value"
         },
@@ -9261,7 +9261,7 @@ var eF = Fa(Kt => {
         },
         of = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "Kernel")], -1)),
+        }, [t("span", null, "内核版本")], -1)),
         nf = {
             class: "item-label_value"
         },
@@ -9270,7 +9270,7 @@ var eF = Fa(Kt => {
         },
         sf = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "Uptime")], -1)),
+        }, [t("span", null, "运行时间")], -1)),
         df = {
             class: "item-label_value"
         },
@@ -9279,7 +9279,7 @@ var eF = Fa(Kt => {
         },
         lf = _t(() => t("div", {
             class: "item-label_key"
-        }, [t("span", null, "Local Time")], -1)),
+        }, [t("span", null, "本地时间")], -1)),
         cf = {
             class: "item-label_value"
         },
@@ -9320,7 +9320,7 @@ var eF = Fa(Kt => {
                         onClick: l
                     }), t("ul", null, [t("li", null, [t("a", {
                         onClick: u
-                    }, "System monitoring")]), O7])], 512), [
+                    }, "系统监控")]), O7])], 512), [
                         [wt, s.value]
                     ])]), t("div", q7, [V7, t("div", G7, [D(_, {
                         value: w(p) / 1.5,
@@ -9377,7 +9377,7 @@ var eF = Fa(Kt => {
         hf = ["onSubmit"],
         xf = mt(() => t("div", {
             class: "actioner-dns_header"
-        }, [t("span", null, "Intranet Configuration")], -1)),
+        }, [t("span", null, "内网配置")], -1)),
         kf = {
             class: "actioner-dns_body"
         },
@@ -9386,7 +9386,7 @@ var eF = Fa(Kt => {
         },
         yf = mt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "IPv4 Address")], -1)),
+        }, [t("span", null, "IPv4 地址")], -1)),
         Ff = {
             class: "label-item_value"
         },
@@ -9395,7 +9395,7 @@ var eF = Fa(Kt => {
         },
         Cf = mt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "IPv4 Subnet mask")], -1)),
+        }, [t("span", null, "IPv4 子网掩码")], -1)),
         $f = {
             class: "label-item_value"
         },
@@ -9416,7 +9416,7 @@ var eF = Fa(Kt => {
         },
         Sf = mt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "IP Pool start address")], -1)),
+        }, [t("span", null, "地址池起始地址")], -1)),
         zf = {
             class: "label-item_value"
         },
@@ -9425,7 +9425,7 @@ var eF = Fa(Kt => {
         },
         Tf = mt(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "IP Pool end address")], -1)),
+        }, [t("span", null, "地址池结束地址")], -1)),
         If = {
             class: "label-item_value"
         },
@@ -9439,7 +9439,7 @@ var eF = Fa(Kt => {
         },
         Nf = mt(() => t("div", {
             class: "actioner-dns_header"
-        }, [t("span", null, "Change configuration")], -1)),
+        }, [t("span", null, "修改配置")], -1)),
         qf = {
             class: "actioner-dns_body"
         },
@@ -9465,7 +9465,7 @@ var eF = Fa(Kt => {
         })])], -1)),
         jf = mt(() => t("div", {
             class: "config-message"
-        }, "Configuration successfully", -1)),
+        }, "配置成功", -1)),
         Rf = ["href"],
         Uf = {
             key: 1,
@@ -9489,8 +9489,8 @@ var eF = Fa(Kt => {
         })])], -1)),
         Hf = mt(() => t("div", {
             class: "config-message"
-        }, "Configuration failed", -1)),
-        Zf = mt(() => t("p", null, "Please try to reconfigure", -1)),
+        }, "配置失败", -1)),
+        Zf = mt(() => t("p", null, "请尝试重新配置", -1)),
         Jf = {
             key: 2,
             class: "setting_status"
@@ -9528,8 +9528,8 @@ var eF = Fa(Kt => {
         })])])])], -1)),
         Kf = mt(() => t("div", {
             class: "config-message"
-        }, "Configuration timeout", -1)),
-        Qf = mt(() => t("p", null, "Router IP may have been modified successfully. If refreshing the page fails, please reconnect router, otherwise, please try to reconfigure.", -1)),
+        }, "配置超时", -1)),
+        Qf = mt(() => t("p", null, "路由器 IP 可能已修改成功。如果刷新页面失败，请重新连接路由器；仍无法访问时，请尝试重新配置。", -1)),
         tm = P({
             props: {
                 Close: {
@@ -9563,11 +9563,11 @@ var eF = Fa(Kt => {
                 const m = () => {
                         const g = n.value;
                         if (!xt.isValidIP(g.lanIp)) {
-                            F.Warning("IPv4 Address format ERROR!!");
+                            F.Warning("IPv4 地址格式错误！");
                             return
                         }
                         if (!xt.isValidMask(g.netMask)) {
-                            F.Warning("IPv4 Subnet mask format ERROR!!");
+                            F.Warning("IPv4 子网掩码格式错误！");
                             return
                         }
                         const k = xt.calcMaskRange(g.lanIp, g.netMask);
@@ -9576,18 +9576,18 @@ var eF = Fa(Kt => {
                     b = () => {
                         const g = n.value;
                         if (!xt.isValidIP(g.lanIp)) {
-                            F.Warning("IPv4 Address format ERROR!!");
+                            F.Warning("IPv4 地址格式错误！");
                             return
                         }
                         if (!xt.isValidMask(g.netMask)) {
-                            F.Warning("IPv4 Subnet mask format ERROR!!");
+                            F.Warning("IPv4 子网掩码格式错误！");
                             return
                         }
                         if (g.enableDhcp && !xt.isValidIP(g.dhcpStart) || !xt.isValidIP(g.dhcpEnd) || !xt.isValidMaskRange(g.lanIp, g.netMask, g.dhcpStart, g.dhcpEnd)) {
-                            F.Warning("Format of DHCP IP Pool is wrong or exceeds range of the subnet");
+                            F.Warning("DHCP 地址池格式错误或超出子网范围");
                             return
                         }
-                        const k = F.Loading("Configuring...", 30);
+                        const k = F.Loading("正在配置……", 30);
                         let x = 0;
                         const E = B => {
                                 d.value = B, o.value = 1, x = 1, k.Close()
@@ -9620,7 +9620,7 @@ var eF = Fa(Kt => {
                                 if ((B.data.success || 0) == 0) return;
                                 if (($ = B.data) != null && $.error) throw B.data.error
                             }
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).catch(B => {
                             x == 0 && (E("fail"), F.Error(B))
                         }), A(), window.setTimeout(() => {
@@ -9663,7 +9663,7 @@ var eF = Fa(Kt => {
                         modelValue: n.value.enableDhcp,
                         "onUpdate:modelValue": k[2] || (k[2] = x => n.value.enableDhcp = x)
                     }, {
-                        default: V(() => [n.value.enableDhcp ? (i(), r("span", Bf, "Edit DHCP service")) : (i(), r("span", Yf, "Keep DHCP service settings"))]),
+                        default: V(() => [n.value.enableDhcp ? (i(), r("span", Bf, "修改 DHCP 服务")) : (i(), r("span", Yf, "保留 DHCP 服务设置"))]),
                         _: 1
                     }, 8, ["modelValue"])])) : C("", !0), n.value.enableDhcp ? (i(), r(L, {
                         key: 1
@@ -9686,21 +9686,21 @@ var eF = Fa(Kt => {
                     ])])])], 64)) : C("", !0)]), t("div", Lf, [t("button", {
                         class: "cbi-button cbi-button-remove app-btn app-back",
                         onClick: _
-                    }, "Dismiss"), t("button", {
+                    }, "取消"), t("button", {
                         class: "cbi-button cbi-button-positive app-btn",
                         disabled: s.value
-                    }, "Save", 8, Mf)])], 40, hf)) : o.value == 1 ? (i(), r("div", Of, [Nf, t("div", qf, [d.value == "success" ? (i(), r("div", Vf, [Gf, jf, t("a", {
+                    }, "保存", 8, Mf)])], 40, hf)) : o.value == 1 ? (i(), r("div", Of, [Nf, t("div", qf, [d.value == "success" ? (i(), r("div", Vf, [Gf, jf, t("a", {
                         href: c.value,
                         class: "NewAdress"
-                    }, "Jump to new address after " + h(p.value), 9, Rf)])) : d.value == "fail" ? (i(), r("div", Uf, [Wf, Hf, Zf, t("button", {
+                    }, "即将跳转到新地址，剩余 " + h(p.value), 9, Rf)])) : d.value == "fail" ? (i(), r("div", Uf, [Wf, Hf, Zf, t("button", {
                         class: "cbi-button cbi-button-positive app-btn",
                         onClick: v
-                    }, "I see")])) : d.value == "timeout" ? (i(), r("div", Jf, [Xf, Kf, Qf, t("button", {
+                    }, "知道了")])) : d.value == "timeout" ? (i(), r("div", Jf, [Xf, Kf, Qf, t("button", {
                         class: "cbi-button cbi-button-positive app-btn",
                         onClick: v
-                    }, "Refresh page")])) : C("", !0)])])) : C("", !0)]),
+                    }, "刷新页面")])) : C("", !0)])])) : C("", !0)]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var em = Y(tm, [
@@ -9735,7 +9735,7 @@ var eF = Fa(Kt => {
         },
         rm = bt(() => t("p", {
             class: "sandbox_info"
-        }, "A simple sandbox, which is convenient for experimenting with system configuration and programs, and for developing unfinished software, but does not protect Docker and hard disk data", -1)),
+        }, "简单的沙箱环境，便于测试系统配置和程序、开发软件，但不会保护 Docker 和硬盘中的数据", -1)),
         sm = {
             key: 0,
             class: "disk_loading_icon"
@@ -9852,7 +9852,7 @@ var eF = Fa(Kt => {
                         path: f.value
                     }).then(x => {
                         var E;
-                        if (!(x != null && x.data && (((E = x == null ? void 0 : x.data) == null ? void 0 : E.success) || 0) == 0)) throw "Unknown mistake"
+                        if (!(x != null && x.data && (((E = x == null ? void 0 : x.data) == null ? void 0 : E.success) || 0) == 0)) throw "未知错误"
                     }),
                     m = x => {
                         var E, A;
@@ -9891,7 +9891,7 @@ var eF = Fa(Kt => {
                                 if ((A.data.success || 0) == 0) return o.value = 2, window.setTimeout(b, 1e3), u();
                                 if ((B = A.data) != null && B.error) throw A.data.error
                             }
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).then(v).catch(A => F.Warning(A)).finally(() => E.Close())
                     },
                     k = () => {
@@ -9954,7 +9954,7 @@ var eF = Fa(Kt => {
                             onClick: k
                         }, "\u53D6\u6D88")])])) : C("", !0)]),
                         _: 1
-                    }, 8, ["Close"])
+                    }, 8, ["关闭"])
                 }
             }
         });
@@ -9989,7 +9989,7 @@ var eF = Fa(Kt => {
             class: "actioner-dns_body"
         }, [t("p", {
             class: "sandbox_info"
-        }, "A simple sandbox, which is convenient for experimenting with system configuration and programs, and for developing unfinished software, but does not protect Docker and hard disk data"), t("div", {
+        }, "简单的沙箱环境，便于测试系统配置和程序、开发软件，但不会保护 Docker 和硬盘中的数据"), t("div", {
             class: "sandbox_environment"
         }, [t("p", null, "\u5F53\u524D\u5904\u4E8E\u6C99\u7BB1\u73AF\u5883\uFF1A"), t("p", null, "1\u3001\u70B9\u51FB\u201C\u63D0\u4EA4\u201D\u53EF\u5C06\u53D8\u66F4\u5408\u5E76\u5230\u975E\u6C99\u7BB1\u73AF\u5883"), t("p", null, "2\u3001\u70B9\u51FB\u201C\u91CD\u7F6E\u201D\u53EF\u5C06\u6C99\u7BB1\u6062\u590D\u5230\u521D\u59CB\u72B6\u6001"), t("p", null, "3\u3001\u70B9\u51FB\u201C\u9000\u51FA\u201D\u53EF\u9000\u51FA\u6C99\u7BB1\u73AF\u5883\uFF0C\u5E76\u653E\u5F03\u6C99\u7BB1\u4E2D\u7684\u6570\u636E")]), t("div", {
             class: "sandbox_environment_info"
@@ -10034,46 +10034,46 @@ var eF = Fa(Kt => {
                     },
                     c = () => {
                         n.value = !0;
-                        const l = F.Loading("Submitting...");
+                        const l = F.Loading("正在提交……");
                         S.Nas.SandboxCommit.POST().then(u => {
                             var m, b;
                             if (u != null && u.data)
                                 if ((((m = u == null ? void 0 : u.data) == null ? void 0 : m.success) || 0) == 0) {
-                                    F.Loading("Restarting device...");
+                                    F.Loading("正在重启设备……");
                                     return
                                 } else(b = u == null ? void 0 : u.data) != null && b.error && alert(u.data.error);
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).then(s).catch(u => {
                             F.Error(u), n.value = !1
                         }).finally(() => l.Close())
                     },
                     p = () => {
                         n.value = !0;
-                        const l = F.Loading("Reseting...");
+                        const l = F.Loading("正在重置……");
                         S.Nas.SandboxReset.POST().then(u => {
                             var m, b;
                             if (u != null && u.data)
                                 if ((((m = u == null ? void 0 : u.data) == null ? void 0 : m.success) || 0) == 0) {
-                                    F.Loading("Restarting device... If the page has not been refreshed for a long time, you may need to manually fill in the address");
+                                    F.Loading("正在重启设备……如果页面长时间未刷新，可能需要手动输入地址");
                                     return
                                 } else(b = u == null ? void 0 : u.data) != null && b.error && alert(u.data.error);
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).then(s).catch(u => {
                             F.Error(u), n.value = !1
                         }).finally(() => l.Close())
                     },
                     f = () => {
-                        if (!confirm("Are you sure you want to discard the data in the sandbox? Re-entering the sandbox requires reformatting the corresponding disk partition")) return;
+                        if (!confirm("确定丢弃沙箱中的数据吗？再次进入沙箱需要重新格式化对应磁盘分区")) return;
                         n.value = !0;
                         const l = F.Loading("\u6267\u884C\u4E2D...");
                         S.Nas.SandboxExit.POST().then(u => {
                             var m, b;
                             if (u != null && u.data)
                                 if ((((m = u == null ? void 0 : u.data) == null ? void 0 : m.success) || 0) == 0) {
-                                    F.Loading("Restarting device... If the page has not been refreshed for a long time, you may need to manually fill in the address");
+                                    F.Loading("正在重启设备……如果页面长时间未刷新，可能需要手动输入地址");
                                     return
                                 } else(b = u == null ? void 0 : u.data) != null && b.error && alert(u.data.error);
-                            throw "Unknown mistake"
+                            throw "未知错误"
                         }).then(s).catch(u => {
                             F.Error(u), n.value = !1
                         }).finally(() => l.Close())
@@ -10089,7 +10089,7 @@ var eF = Fa(Kt => {
                         class: "cbi-button cbi-button-apply app-btn",
                         onClick: c,
                         disabled: n.value
-                    }, "Save & Apply", 8, Vm), t("button", {
+                    }, "保存并应用", 8, Vm), t("button", {
                         class: "cbi-button cbi-button-apply app-btn",
                         onClick: p,
                         disabled: n.value
@@ -10102,7 +10102,7 @@ var eF = Fa(Kt => {
                         onClick: d
                     }, "\u53D6\u6D88")])])) : C("", !0)]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var Um = Y(Rm, [
@@ -10144,7 +10144,7 @@ var eF = Fa(Kt => {
             key: 1
         },
         t9 = ["disabled"],
-        e9 = U(" DNS Server "),
+        e9 = U(" DNS 服务器 "),
         a9 = {
             key: 0,
             style: {
@@ -10196,20 +10196,20 @@ var eF = Fa(Kt => {
                             }) => [t("button", {
                                 class: "btn_styles color2",
                                 onClick: q
-                            }, "Network Config", 8, Zm)]),
+                            }, "网络配置", 8, Zm)]),
                             _: 1
                         }), //w(Vt)("ttyd") ? (i(), r("button", {
                             //key: 0,
                             //class: "btn_styles color2 app-btn-ttyd",
                             //onClick: m
-                        //}, "Terminal")) : C("", !0), w(Vt)("ota") ? (i(), r("button", Jm, [Xm, w(a).checkUpdate == null ? (i(), r("span", Km, [D(g, {
+                        //}, "终端")) : C("", !0), w(Vt)("ota") ? (i(), r("button", Jm, [Xm, w(a).checkUpdate == null ? (i(), r("span", Km, [D(g, {
                         w(Vt)("ota") ? (i(), r("button", Jm, [Xm, w(a).checkUpdate == null ? (i(), r("span", Km, [D(g, {
                             size: "0.8em",
                             color: "currentColor"
                         })])) : (k = w(a).checkUpdate) != null && k.needUpdate ? (i(), r("i", Qm)) : C("", !0)])) : C("", !0), t("button", {
                             class: "btn_styles color4",
                             onClick: l
-                        }, "Intranet"), t("button", {
+                        }, "内网"), t("button", {
                             class: "btn_styles color5",
                             onClick: c,
                             disabled: !((x = w(n)) != null && x.proto)
@@ -10219,7 +10219,7 @@ var eF = Fa(Kt => {
                         })]))], 8, t9) //t("button", {
                             //class: "btn_styles color1",
                             //onClick: u
-                        //}, "Software Source")
+                        //}, "软件源")
                             //w(Vt)("sandbox") ? (i(), r(L, {
                             //key: 2
                         //}, [((A = s.value) == null ? void 0 : A.status) == "unsupport" ? (i(), r("button", {
@@ -10341,10 +10341,10 @@ var eF = Fa(Kt => {
         },
         P9 = Wt(() => t("div", {
             class: "title"
-        }, "Welcome to Network Configuration Wizard", -1)),
+        }, "欢迎使用网络配置向导", -1)),
         T9 = Wt(() => t("div", {
             class: "desc"
-        }, "Choose a connection method to get started", -1)),
+        }, "请选择连接方式", -1)),
         I9 = {
             class: "network-containers"
         },
@@ -10357,7 +10357,7 @@ var eF = Fa(Kt => {
         O9 = {
             class: "thumbnail"
         },
-        N9 = Wt(() => t("span", null, "Broadband dial-up", -1)),
+        N9 = Wt(() => t("span", null, "宽带拨号", -1)),
         q9 = {
             class: "network-container_item"
         },
@@ -10367,7 +10367,7 @@ var eF = Fa(Kt => {
         G9 = {
             class: "thumbnail"
         },
-        j9 = Wt(() => t("span", null, "Router", -1)),
+        j9 = Wt(() => t("span", null, "主路由", -1)),
         R9 = {
             class: "network-container_item"
         },
@@ -10377,12 +10377,12 @@ var eF = Fa(Kt => {
         W9 = {
             class: "thumbnail"
         },
-        H9 = Wt(() => t("span", null, "Bypass Router", -1)),
+        H9 = Wt(() => t("span", null, "旁路由", -1)),
         Z9 = Wt(() => t("div", {
             class: "info"
-        }, [U("Didn't find the desired configuration? Please use "), t("a", {
+        }, [U("没有找到需要的配置？请使用 "), t("a", {
             href: "/cgi-bin/luci/admin/network/network"
-        }, "Advanced Mode")], -1)),
+        }, "高级模式")], -1)),
         J9 = P({
             setup(e) {
                 return (a, o) => {
@@ -10416,33 +10416,33 @@ var eF = Fa(Kt => {
         },
         Q9 = St(() => t("h2", {
             class: "title"
-        }, "Configure Broadband Account", -1)),
+        }, "配置宽带账号", -1)),
         tb = St(() => t("h3", {
             class: "desc"
-        }, "Please make sure you have connected the routing WAN port to the optical modem", -1)),
+        }, "请确认已将路由器 WAN 口连接到光猫", -1)),
         eb = {
             class: "network-message"
         },
         ab = {
             key: 0
         },
-        ob = U(" because your device"),
-        nb = St(() => t("span", null, "no WAN port", -1)),
-        ib = U(", unable to go through this setup wizard, please see for details "),
+        ob = U("由于你的设备"),
+        nb = St(() => t("span", null, "没有 WAN 口", -1)),
+        ib = U("，无法使用此配置向导，详情请查看 "),
         rb = St(() => t("a", {
             href: "https://doc.linkease.com/zh/guide/istoreos/question.html#%E7%BD%91%E7%BB%9C",
             target: "_blank",
             rel: "noopener noreferrer"
-        }, "Link", -1)),
+        }, "链接", -1)),
         sb = [ob, nb, ib, rb],
         db = ["onSubmit"],
         ub = St(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "Broadband account")], -1)),
+        }, [t("span", null, "宽带账号")], -1)),
         lb = ["disabled"],
         cb = St(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "Password")], -1)),
+        }, [t("span", null, "密码")], -1)),
         pb = ["disabled"],
         fb = {
             key: 0,
@@ -10450,7 +10450,7 @@ var eF = Fa(Kt => {
         },
         mb = St(() => t("span", {
             class: "dhcp_info"
-        }, "Enable LAN port DHCP service ( Used to restore the default state from the bypass mode )", -1)),
+        }, "启用 LAN 口 DHCP 服务（用于从旁路由模式恢复默认状态）", -1)),
         bb = {
             key: 1,
             class: "msg"
@@ -10466,7 +10466,7 @@ var eF = Fa(Kt => {
         },
         xb = St(() => t("h2", {
             class: "title"
-        }, "Configuration successfully", -1)),
+        }, "配置成功", -1)),
         kb = {
             class: "btns"
         },
@@ -10502,15 +10502,15 @@ var eF = Fa(Kt => {
                     const l = o.value.account || "",
                         u = o.value.password || "";
                     if (l == "") {
-                        n.value = "Account cannot be empty";
+                        n.value = "账号不能为空";
                         return
                     }
                     if (u == "") {
-                        n.value = "Password cannot be empty";
+                        n.value = "密码不能为空";
                         return
                     }
                     s.value = !0;
-                    const m = F.Loading("Configuration...");
+                    const m = F.Loading("正在配置……");
                     try {
                         const b = yield S.Guide.Pppoe.POST({
                             account: l,
@@ -10521,7 +10521,7 @@ var eF = Fa(Kt => {
                                 error: _,
                                 success: v
                             } = b.data;
-                            _ && (n.value = _), (v == null || v == 0) && (F.Success("Configuration successfully"), a.value = 1)
+                            _ && (n.value = _), (v == null || v == 0) && (F.Success("配置成功"), a.value = 1)
                         }
                     } catch (b) {
                         n.value = b
@@ -10536,7 +10536,7 @@ var eF = Fa(Kt => {
                     }, [t("label", null, [ub, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": u[0] || (u[0] = _ => o.value.account = _),
-                        placeholder: "Broadband account",
+                        placeholder: "宽带账号",
                         required: "",
                         disabled: s.value
                     }, null, 8, lb), [
@@ -10546,7 +10546,7 @@ var eF = Fa(Kt => {
                     ])]), t("label", null, [cb, z(t("input", {
                         type: "password",
                         "onUpdate:modelValue": u[1] || (u[1] = _ => o.value.password = _),
-                        placeholder: "Broadband password",
+                        placeholder: "宽带密码",
                         required: "",
                         disabled: s.value
                     }, null, 8, pb), [
@@ -10562,7 +10562,7 @@ var eF = Fa(Kt => {
                     }, 8, ["modelValue"])])) : C("", !0), n.value ? (i(), r("div", bb, h(n.value), 1)) : C("", !0), t("div", vb, [t("button", {
                         class: "cbi-button cbi-button-apply app-btn app-next",
                         disabled: s.value
-                    }, "Save & Apply", 8, gb), D(b, {
+                    }, "保存并应用", 8, gb), D(b, {
                         to: "/network",
                         custom: ""
                     }, {
@@ -10571,7 +10571,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: _
-                        }, "Cancel", 8, _b)]),
+                        }, "取消", 8, _b)]),
                         _: 1
                     })])], 40, db)])) : a.value == 1 ? (i(), r("div", hb, [xb, t("div", kb, [D(b, {
                         to: "/",
@@ -10582,7 +10582,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-apply app-btn app-next",
                             onClick: _
-                        }, "Dashboard", 8, wb)]),
+                        }, "首页", 8, wb)]),
                         _: 1
                     }), D(b, {
                         to: "/network",
@@ -10593,7 +10593,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: _
-                        }, "Web Wizard", 8, yb)]),
+                        }, "网络向导", 8, yb)]),
                         _: 1
                     })])])) : C("", !0)
                 }
@@ -10609,39 +10609,39 @@ var eF = Fa(Kt => {
         },
         $b = st(() => t("h2", {
             class: "title"
-        }, "Configure Router", -1)),
+        }, "配置主路由", -1)),
         Db = st(() => t("h3", {
             class: "desc"
-        }, "Please make sure you have connected the routed WAN port to the superior routed local area network (LAN) port", -1)),
+        }, "请确认已将本机 WAN 口连接到上级路由器的 LAN 口", -1)),
         Bb = {
             class: "network-message"
         },
         Yb = {
             key: 0
         },
-        Ab = U(" because your device"),
-        Sb = st(() => t("span", null, "No WAN port", -1)),
-        zb = U(", this setup wizard cannot be used, for details, please see "),
+        Ab = U("由于你的设备"),
+        Sb = st(() => t("span", null, "没有 WAN 口", -1)),
+        zb = U("，无法使用此配置向导，详情请查看 "),
         Pb = st(() => t("a", {
             href: "https://doc.linkease.com/zh/guide/istoreos/question.html#%E7%BD%91%E7%BB%9C",
             target: "_blank",
             rel: "noopener noreferrer"
-        }, "Link", -1)),
+        }, "链接", -1)),
         Tb = [Ab, Sb, zb, Pb],
         Ib = ["onSubmit"],
         Lb = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "WAN Interface configuration method")], -1)),
+        }, [t("span", null, "WAN 接口配置方式")], -1)),
         Mb = st(() => t("option", {
             value: "dhcp"
-        }, "DHCP Client", -1)),
+        }, "DHCP 客户端", -1)),
         Ob = st(() => t("option", {
             value: "static"
-        }, "IP Address Static", -1)),
+        }, "静态 IP 地址", -1)),
         Nb = [Mb, Ob],
         qb = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "IP address")], -1)),
+        }, [t("span", null, "IP 地址")], -1)),
         Vb = ["disabled"],
         Gb = {
             key: 0,
@@ -10649,7 +10649,7 @@ var eF = Fa(Kt => {
         },
         jb = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "Subnet mask")], -1)),
+        }, [t("span", null, "子网掩码")], -1)),
         Rb = ["disabled"],
         Ub = {
             key: 1,
@@ -10657,26 +10657,26 @@ var eF = Fa(Kt => {
         },
         Wb = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "Gateway address")], -1)),
+        }, [t("span", null, "网关地址")], -1)),
         Hb = ["disabled"],
         Zb = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "DNS Configuration method")], -1)),
+        }, [t("span", null, "DNS 配置方式")], -1)),
         Jb = ["disabled"],
         Xb = st(() => t("option", {
             value: "manual"
-        }, "Manual configuration", -1)),
+        }, "手动配置", -1)),
         Kb = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "DNS server")], -1)),
+        }, [t("span", null, "DNS 服务器")], -1)),
         Qb = ["onUpdate:modelValue", "disabled"],
         tv = st(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "DNS server")], -1)),
+        }, [t("span", null, "DNS 服务器")], -1)),
         ev = ["disabled"],
         av = st(() => t("div", {
             class: "label-key"
-        }, "Alternate DNS server", -1)),
+        }, "备用 DNS 服务器", -1)),
         ov = ["disabled"],
         nv = {
             key: 2,
@@ -10684,7 +10684,7 @@ var eF = Fa(Kt => {
         },
         iv = st(() => t("span", {
             class: "dhcp_info"
-        }, "Enable LAN port DHCP service ( Used to restore the default state from the bypass mode )", -1)),
+        }, "启用 LAN 口 DHCP 服务（用于从旁路由模式恢复默认状态）", -1)),
         rv = {
             key: 3,
             class: "msgs"
@@ -10700,7 +10700,7 @@ var eF = Fa(Kt => {
         },
         cv = st(() => t("h2", {
             class: "title"
-        }, "Configuration successfully", -1)),
+        }, "配置成功", -1)),
         pv = {
             class: "btns"
         },
@@ -10749,7 +10749,7 @@ var eF = Fa(Kt => {
                             f.value = "";
                             return
                         }
-                        u(E.value) ? f.value = "" : f.value = "Please enter a legal ip address"
+                        u(E.value) ? f.value = "" : f.value = "请输入有效的 IP 地址"
                     },
                     g = x => {
                         const E = x.target;
@@ -10757,7 +10757,7 @@ var eF = Fa(Kt => {
                             d.value = "";
                             return
                         }
-                        u(E.value) ? d.value = "" : d.value = "Please enter a legal address"
+                        u(E.value) ? d.value = "" : d.value = "请输入有效的地址"
                     },
                     k = () => T(this, null, function* () {
                         const x = {};
@@ -10776,7 +10776,7 @@ var eF = Fa(Kt => {
                                 break
                         }
                         x.dnsProto = o.value.dnsProto, x.wanProto = o.value.wanProto, x.enableLanDhcp = o.value.enableLanDhcp;
-                        const E = F.Loading("Configuration....");
+                        const E = F.Loading("正在配置……");
                         p.value = !0;
                         try {
                             const A = yield S.Guide.ClientModel.POST(x);
@@ -10785,7 +10785,7 @@ var eF = Fa(Kt => {
                                     success: B,
                                     error: $
                                 } = A == null ? void 0 : A.data;
-                                $ && (n.value = $), (B == null || B == 0) && (F.Success("Configuration successfully"), a.value = 1)
+                                $ && (n.value = $), (B == null || B == 0) && (F.Success("配置成功"), a.value = 1)
                             }
                         } catch (A) {
                             n.value = A
@@ -10807,7 +10807,7 @@ var eF = Fa(Kt => {
                     }, [t("label", null, [qb, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": E[1] || (E[1] = $ => o.value.staticIp = $),
-                        placeholder: "IP address",
+                        placeholder: "IP 地址",
                         required: "",
                         disabled: p.value,
                         onInput: v
@@ -10818,7 +10818,7 @@ var eF = Fa(Kt => {
                     ])]), f.value ? (i(), r("p", Gb, h(f.value), 1)) : C("", !0), t("label", null, [jb, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": E[2] || (E[2] = $ => o.value.subnetMask = $),
-                        placeholder: "Subnet mask",
+                        placeholder: "子网掩码",
                         required: "",
                         disabled: p.value,
                         onInput: g
@@ -10829,7 +10829,7 @@ var eF = Fa(Kt => {
                     ])]), d.value ? (i(), r("p", Ub, h(d.value), 1)) : C("", !0), t("label", null, [Wb, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": E[3] || (E[3] = $ => o.value.gateway = $),
-                        placeholder: "Gateway address",
+                        placeholder: "网关地址",
                         required: "",
                         disabled: p.value
                     }, null, 8, Hb), [
@@ -10841,7 +10841,7 @@ var eF = Fa(Kt => {
                     }, [t("option", {
                         value: "auto",
                         disabled: o.value.wanProto == "static"
-                    }, "Get automatically (DHCP)", 8, Jb), Xb], 512), [
+                    }, "自动获取（DHCP）", 8, Jb), Xb], 512), [
                         [Q, o.value.dnsProto]
                     ])]), o.value.dnsProto == "manual" ? (i(), r(L, {
                         key: 1
@@ -10850,7 +10850,7 @@ var eF = Fa(Kt => {
                     }, j(o.value.manualDnsIp, ($, q) => (i(), r("label", null, [Kb, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": H => o.value.manualDnsIp[q] = H,
-                        placeholder: "DNS server",
+                        placeholder: "DNS 服务器",
                         required: "",
                         disabled: p.value
                     }, null, 8, Qb), [
@@ -10862,7 +10862,7 @@ var eF = Fa(Kt => {
                     }, [t("label", null, [tv, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": E[5] || (E[5] = $ => s.value = $),
-                        placeholder: "DNS server",
+                        placeholder: "DNS 服务器",
                         required: "",
                         disabled: p.value
                     }, null, 8, ev), [
@@ -10872,7 +10872,7 @@ var eF = Fa(Kt => {
                     ])]), t("label", null, [av, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": E[6] || (E[6] = $ => c.value = $),
-                        placeholder: "Alternate DNS server",
+                        placeholder: "备用 DNS 服务器",
                         disabled: p.value
                     }, null, 8, ov), [
                         [W, c.value, void 0, {
@@ -10887,7 +10887,7 @@ var eF = Fa(Kt => {
                     }, 8, ["modelValue"])])) : C("", !0), n.value ? (i(), r("div", rv, h(n.value), 1)) : C("", !0), t("div", sv, [t("button", {
                         class: "cbi-button cbi-button-apply app-btn app-next",
                         disabled: p.value
-                    }, "Save & Apply", 8, dv), D(B, {
+                    }, "保存并应用", 8, dv), D(B, {
                         to: "/network",
                         custom: ""
                     }, {
@@ -10896,7 +10896,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: $
-                        }, "Cancel", 8, uv)]),
+                        }, "取消", 8, uv)]),
                         _: 1
                     })])], 40, Ib)])) : a.value == 1 ? (i(), r("div", lv, [cv, t("div", pv, [D(B, {
                         to: "/",
@@ -10907,7 +10907,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-apply app-btn app-next",
                             onClick: $
-                        }, "Dashboard", 8, fv)]),
+                        }, "首页", 8, fv)]),
                         _: 1
                     }), D(B, {
                         to: "/network",
@@ -10918,7 +10918,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: $
-                        }, "Web Wizard", 8, mv)]),
+                        }, "网络向导", 8, mv)]),
                         _: 1
                     })])])) : C("", !0)
                 }
@@ -10934,8 +10934,8 @@ var eF = Fa(Kt => {
         },
         _v = lt(() => t("h2", {
             class: "title"
-        }, "Bypass Router Configuration", -1)),
-        hv = lt(() => t("code", null, [U("Bypass routing mode is also called single-arm routing mode. You can use the upper level route (main route) to dial, and then use this route to realize some advanced functions. Wizard supports automatic or manual configuration."), t("br"), t("br"), U("For manual configuration, you need to get yourself an ip address (example 192.168.1.1) and subnet mask from main router.")], -1)),
+        }, "旁路由配置", -1)),
+        hv = lt(() => t("code", null, [U("旁路由模式也称单臂路由模式，可由主路由拨号，再通过本机实现高级功能。向导支持自动或手动配置。"), t("br"), t("br"), U("手动配置需要先确认主路由的网段，为旁路由分配可用 IP 地址，并填写对应的子网掩码。")], -1)),
         xv = {
             class: "btns"
         },
@@ -10946,31 +10946,31 @@ var eF = Fa(Kt => {
         },
         yv = lt(() => t("h2", {
             class: "title"
-        }, "Configure bypass network", -1)),
+        }, "配置旁路由网络", -1)),
         Fv = lt(() => t("h3", {
             class: "desc"
-        }, "Now, please configure the bypass route information", -1)),
+        }, "请配置旁路由信息", -1)),
         Ev = ["onSubmit"],
         Cv = lt(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "LAN Interface configuration mode")], -1)),
+        }, [t("span", null, "LAN 接口配置方式")], -1)),
         $v = {
             class: "label-value"
         },
-        Dv = lt(() => t("option", null, "Bypass router mode only supports IP address static", -1)),
+        Dv = lt(() => t("option", null, "旁路由模式仅支持静态 IP 地址", -1)),
         Bv = [Dv],
         Yv = lt(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "IP address")], -1)),
+        }, [t("span", null, "IP 地址")], -1)),
         Av = lt(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "Subnet mask")], -1)),
+        }, [t("span", null, "子网掩码")], -1)),
         Sv = lt(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "Gateway address")], -1)),
+        }, [t("span", null, "网关地址")], -1)),
         zv = lt(() => t("div", {
             class: "label-key"
-        }, [t("span", null, "DNS server")], -1)),
+        }, [t("span", null, "DNS 服务器")], -1)),
         Pv = {
             key: 0,
             class: "msgs"
@@ -10994,13 +10994,13 @@ var eF = Fa(Kt => {
         },
         Ov = lt(() => t("span", {
             class: "switch_info"
-        }, "Automatically obtain IPv6", -1)),
+        }, "自动获取 IPv6", -1)),
         Nv = {
             class: "btns"
         },
         qv = lt(() => t("button", {
             class: "cbi-button cbi-button-apply app-btn app-next"
-        }, "Save & Apply", -1)),
+        }, "保存并应用", -1)),
         Vv = ["onClick"],
         Gv = {
             key: 2,
@@ -11008,27 +11008,27 @@ var eF = Fa(Kt => {
         },
         jv = lt(() => t("h2", {
             class: "title"
-        }, "Configuration successfully", -1)),
+        }, "配置成功", -1)),
         Rv = lt(() => t("h3", {
             class: "desc"
-        }, "Now, disconnect WAN port of this router, connect one of LAN ports to the main router, and connect the current browser device to the main router. Click '' browser will jump to new routing ip", -1)),
+        }, "请断开本机 WAN 口，将一个 LAN 口连接到主路由，并将当前设备连接到主路由。点击按钮后，浏览器将跳转到旁路由的新 IP 地址", -1)),
         Uv = {
             key: 3,
             id: "page"
         },
         Wv = lt(() => t("h2", {
             class: "title"
-        }, "Bypass Router Auto-Configuration", -1)),
-        Hv = lt(() => t("code", null, [U("Confirm main router has opened DHCP service, and confirm WAN port of route in DHCP client mode."), t("br"), U("(if not, you can use \u0022Router\u0022 wizard for change it to DHCP client)"), t("br"), t("br"), U("Connect WAN port of route to main router. Routed LAN connections to get configuration automatically.")], -1)),
-        Zv = U("After meeting all conditions, click \u0022Current IPv4 Upstream information\u0022 to refresh the current connection information. Once successfully, \u0022Auto fill\u0022 button will be activated. If you fail, you can click again"),
+        }, "旁路由自动配置", -1)),
+        Hv = lt(() => t("code", null, [U("请确认主路由已启用 DHCP 服务，且本机 WAN 口处于 DHCP 客户端模式。"), t("br"), U("（如果不是，可使用“主路由”向导将其改为 DHCP 客户端）"), t("br"), t("br"), U("将本机 WAN 口连接到主路由，以获取自动配置所需的信息。")], -1)),
+        Zv = U("满足上述条件后，点击“当前 IPv4 上游信息”刷新连接信息。获取成功后可使用“自动填充”；失败时可再次点击重试。"),
         Jv = ["disabled"],
-        Xv = U("Current IPv4 Upstream information"),
+        Xv = U("当前 IPv4 上游信息"),
         Kv = {
             style: {
                 "text-align": "left"
             }
         },
-        Qv = U("Click \u0022Auto Fill\u0022, it will switch to parameter page and fill in automatically. You can still adjust the parameters yourself."),
+        Qv = U("点击“自动填充”将跳转到参数页面并自动填写配置，你仍可手动调整参数。"),
         tg = {
             class: "btns"
         },
@@ -11073,7 +11073,7 @@ var eF = Fa(Kt => {
                     },
                     u = () => T(this, null, function* () {
                         const m = c.value,
-                            b = F.Loading("Configuration...");
+                            b = F.Loading("正在配置……");
                         try {
                             const _ = yield S.Guide.GatewayRouter.POST(m);
                             if (_ != null && _.data) {
@@ -11100,10 +11100,10 @@ var eF = Fa(Kt => {
                     return a.value == 0 ? (i(), r("div", gv, [_v, hv, t("div", xv, [t("button", {
                         class: "cbi-button cbi-button-success app-btn app-next",
                         onClick: b[0] || (b[0] = A => a.value = 3)
-                    }, "Automatic Configuration"), t("button", {
+                    }, "自动配置"), t("button", {
                         class: "cbi-button cbi-button-neutral app-btn app-next",
                         onClick: b[1] || (b[1] = A => d(!1))
-                    }, "Manual Configuration"), D(_, {
+                    }, "手动配置"), D(_, {
                         to: "/network",
                         custom: ""
                     }, {
@@ -11112,7 +11112,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: A
-                        }, "Cancel", 8, kv)]),
+                        }, "取消", 8, kv)]),
                         _: 1
                     })])])) : a.value == 1 ? (i(), r("div", wv, [yv, Fv, t("form", {
                         onSubmit: nt(u, ["prevent"])
@@ -11125,7 +11125,7 @@ var eF = Fa(Kt => {
                     }, Bv, 4)])]), t("label", null, [Yv, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": b[2] || (b[2] = A => c.value.staticLanIp = A),
-                        placeholder: "IP address",
+                        placeholder: "IP 地址",
                         required: ""
                     }, null, 512), [
                         [W, c.value.staticLanIp, void 0, {
@@ -11134,7 +11134,7 @@ var eF = Fa(Kt => {
                     ])]), t("label", null, [Av, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": b[3] || (b[3] = A => c.value.subnetMask = A),
-                        placeholder: "Subnet mask",
+                        placeholder: "子网掩码",
                         required: ""
                     }, null, 512), [
                         [W, c.value.subnetMask, void 0, {
@@ -11143,7 +11143,7 @@ var eF = Fa(Kt => {
                     ])]), t("label", null, [Sv, z(t("input", {
                         type: "text",
                         "onUpdate:modelValue": b[4] || (b[4] = A => c.value.gateway = A),
-                        placeholder: "Gateway address",
+                        placeholder: "网关地址",
                         required: ""
                     }, null, 512), [
                         [W, c.value.gateway, void 0, {
@@ -11162,7 +11162,7 @@ var eF = Fa(Kt => {
                         modelValue: c.value.enableDhcp,
                         "onUpdate:modelValue": b[6] || (b[6] = A => c.value.enableDhcp = A)
                     }, {
-                        default: V(() => [c.value.enableDhcp ? (i(), r("span", Iv, ([U("Provide DHCPv4 service"), t("br"), U("(main router DHCP service needs to be turned off)")]))) : (i(), r("span", Lv, "Provide DHCPv4 service"))]),_: 1
+                        default: V(() => [c.value.enableDhcp ? (i(), r("span", Iv, ([U("提供 DHCPv4 服务"), t("br"), U("（需要关闭主路由的 DHCP 服务）")]))) : (i(), r("span", Lv, "提供 DHCPv4 服务"))]),_: 1
                     }, 8, ["modelValue"])]), t("div", Mv, [D(v, {
                         modelValue: c.value.dhcp6c,
                         "onUpdate:modelValue": b[7] || (b[7] = A => c.value.dhcp6c = A)
@@ -11178,14 +11178,14 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: A
-                        }, "Cancel", 8, Vv)]),
+                        }, "取消", 8, Vv)]),
                         _: 1
                     })])], 40, Ev)])) : a.value == 2 ? (i(), r("div", Gv, [jv, Rv, t("div", {
                         class: "btns"
                     }, [t("button", {
                         class: "cbi-button cbi-button-apply app-btn app-next",
                         onClick: l
-                    }, "enter the console")])])) : a.value == 3 ? (i(), r("div", Uv, [Wv, Hv, Zv, t("button", {
+                    }, "进入管理页面")])])) : a.value == 3 ? (i(), r("div", Uv, [Wv, Hv, Zv, t("button", {
                         class: ot(["cbi-button cbi-button-neutral", w(s) ? "cbi-button-neutral" : "cbi-button-success"]),
                         style: {
                             "line-height": "2",
@@ -11194,11 +11194,11 @@ var eF = Fa(Kt => {
                         },
                         disabled: n.value,
                         onClick: f
-                    }, [Xv, t("p", Kv, [t("ul", null, [t("li", null, "IP address: " + h((g = p.value) == null ? void 0 : g.ipv4addr), 1), t("li", null, "Subnet mask: " + h(((k = p.value) == null ? void 0 : k.ipv4mask) && w(xt).prefixToMask(p.value.ipv4mask)), 1), t("li", null, "Gateway address: " + h((x = p.value) == null ? void 0 : x.gateway), 1), t("li", null, "DNS server: " + h(((E = p.value) == null ? void 0 : E.dnsList) && p.value.dnsList[0] || (w(s) ? "" : "(No DNS server, please fill in the public DNS server later, for example 8.8.8.8)")), 1)])])], 10, Jv), Qv, t("div", tg, [t("button", {
+                    }, [Xv, t("p", Kv, [t("ul", null, [t("li", null, "IP 地址：" + h((g = p.value) == null ? void 0 : g.ipv4addr), 1), t("li", null, "子网掩码：" + h(((k = p.value) == null ? void 0 : k.ipv4mask) && w(xt).prefixToMask(p.value.ipv4mask)), 1), t("li", null, "网关地址：" + h((x = p.value) == null ? void 0 : x.gateway), 1), t("li", null, "DNS 服务器：" + h(((E = p.value) == null ? void 0 : E.dnsList) && p.value.dnsList[0] || (w(s) ? "" : "（没有 DNS 服务器，请稍后填写公共 DNS 服务器，例如 8.8.8.8）")), 1)])])], 10, Jv), Qv, t("div", tg, [t("button", {
                         class: "cbi-button cbi-button-apply app-btn app-next",
                         disabled: w(s),
                         onClick: b[8] || (b[8] = A => d(!0))
-                    }, "Auto fill" + h(w(s) ? " (Please obtain IPv4 Upstream information first!)" : ""), 9, eg), D(_, {
+                    }, "自动填充" + h(w(s) ? "（请先获取 IPv4 上游信息！）" : ""), 9, eg), D(_, {
                         to: "/network",
                         custom: ""
                     }, {
@@ -11207,7 +11207,7 @@ var eF = Fa(Kt => {
                         }) => [t("button", {
                             class: "cbi-button cbi-button-remove app-btn app-back",
                             onClick: A
-                        }, "Cancel", 8, ag)]),
+                        }, "取消", 8, ag)]),
                         _: 1
                     })])])) : C("", !0)
                 }
@@ -11252,7 +11252,7 @@ var eF = Fa(Kt => {
         },
         gg = zt(() => t("span", {
             class: "msg-warning"
-        }, " Checking... ", -1)),
+        }, "正在检查……", -1)),
         _g = [gg],
         hg = {
             key: 1,
@@ -11384,15 +11384,15 @@ var eF = Fa(Kt => {
                     const g = p.filter(x => x.name === f.value)[0],
                         k = d.value;
                     if (!g) {
-                        F.Warning("Please select raid type");
+                        F.Warning("请选择 RAID 类型");
                         return
                     }
                     if (k.length == 0) {
-                        F.Warning("Please select a disk");
+                        F.Warning("请选择磁盘");
                         return
                     }
                     if (g.select > k.length) {
-                        F.Warning("Please select at least" + g.select + "block disk");
+                        F.Warning("请至少选择" + g.select + "块磁盘");
                         return
                     }
                     if (!!confirm(`\u662F\u5426\u7ACB\u5373\u521B\u5EFA ${g.name}\uFF1F\u9009\u62E9\u7684\u786C\u76D8\u6240\u6709\u5206\u533A\u5C06\u4F1A\u88AB\u6E05\u9664\uFF0C\u6B64\u64CD\u4F5C\u53EF\u80FD\u4F1A\u5BFC\u81F4\u786C\u76D8\u6570\u636E\u4E22\u5931\uFF0C\u8BF7\u8C28\u614E\u64CD\u4F5C\u3002`) && !!confirm(`\u786E\u5B9A\u521B\u5EFA ${g.name}\uFF1F\u8BE5\u64CD\u4F5C\u4E0D\u53EF\u9006,\u8BF7\u8C28\u614E\u64CD\u4F5C`)) {
@@ -11558,7 +11558,7 @@ var eF = Fa(Kt => {
         },
         Kg = Pe(() => t("span", {
             class: "msg-warning"
-        }, " Checking... ", -1)),
+        }, "正在检查……", -1)),
         Qg = [Kg],
         t_ = {
             key: 1,
@@ -11599,7 +11599,7 @@ var eF = Fa(Kt => {
                     s = () => T(this, null, function* () {
                         const l = f.value;
                         if (l == "") {
-                            F.Warning("Please select a hard drive to add");
+                            F.Warning("请选择要添加的硬盘");
                             return
                         }
                         p.value = !0;
@@ -11730,7 +11730,7 @@ var eF = Fa(Kt => {
                     s = () => T(this, null, function* () {
                         const f = p.value;
                         if (f == "") {
-                            F.Warning("Please select the hard drive to delete");
+                            F.Warning("请选择要移除的硬盘");
                             return
                         }
                         c.value = !0;
@@ -11810,7 +11810,7 @@ var eF = Fa(Kt => {
         },
         P_ = Te(() => t("span", {
             class: "msg-warning"
-        }, " Checking... ", -1)),
+        }, "正在检查……", -1)),
         T_ = [P_],
         I_ = {
             key: 1,
@@ -11851,7 +11851,7 @@ var eF = Fa(Kt => {
                     s = () => T(this, null, function* () {
                         const l = f.value;
                         if (l == "") {
-                            F.Warning("Please select a hard drive to add");
+                            F.Warning("请选择要添加的硬盘");
                             return
                         }
                         p.value = !0;
@@ -11947,27 +11947,27 @@ var eF = Fa(Kt => {
                     default: V(() => [t("div", j_, [e.setup == "create" ? (i(), M(Ig, {
                         key: 0,
                         Close: e.Close
-                    }, null, 8, ["Close"])) : e.setup == "info" && e.raid != null ? (i(), M(qg, {
+                    }, null, 8, ["关闭"])) : e.setup == "info" && e.raid != null ? (i(), M(qg, {
                         key: 1,
                         Close: e.Close,
                         raid: e.raid,
                         success: e.success
-                    }, null, 8, ["Close", "raid", "success"])) : e.setup == "edit" && e.raid != null ? (i(), M(s_, {
+                    }, null, 8, ["关闭", "raid", "success"])) : e.setup == "edit" && e.raid != null ? (i(), M(s_, {
                         key: 2,
                         Close: e.Close,
                         raid: e.raid,
                         success: e.success
-                    }, null, 8, ["Close", "raid", "success"])) : e.setup == "remove" && e.raid != null ? (i(), M(y_, {
+                    }, null, 8, ["关闭", "raid", "success"])) : e.setup == "remove" && e.raid != null ? (i(), M(y_, {
                         key: 3,
                         Close: e.Close,
                         raid: e.raid,
                         success: e.success
-                    }, null, 8, ["Close", "raid", "success"])) : e.setup == "recover" && e.raid != null ? (i(), M(G_, {
+                    }, null, 8, ["关闭", "raid", "success"])) : e.setup == "recover" && e.raid != null ? (i(), M(G_, {
                         key: 4,
                         Close: e.Close,
                         raid: e.raid,
                         success: e.success
-                    }, null, 8, ["Close", "raid", "success"])) : C("", !0)])]),
+                    }, null, 8, ["关闭", "raid", "success"])) : C("", !0)])]),
                     _: 1
                 }))
             }
@@ -11997,7 +11997,7 @@ var eF = Fa(Kt => {
         },
         H_ = re(() => t("h2", {
             name: "content"
-        }, "RAID Manager", -1)),
+        }, "RAID 管理", -1)),
         Z_ = re(() => t("div", {
             class: "cbi-map-descr"
         }, [t("p", null, " RAID \uFF08 Redundant Array of Independent Disks \uFF09\u5373\u72EC\u7ACB\u78C1\u76D8\u5197\u4F59\u9635\u5217\uFF0C\u7B80\u79F0\u4E3A\u300C\u78C1\u76D8\u9635\u5217\u300D\uFF0C \u5C31\u662F\u7528\u591A\u4E2A\u72EC\u7ACB\u7684\u78C1\u76D8\u7EC4\u6210\u5728\u4E00\u8D77\u5F62\u6210\u4E00\u4E2A\u5927\u7684\u78C1\u76D8\u7CFB\u7EDF\uFF0C\u4ECE\u800C\u5B9E\u73B0\u6BD4\u5355\u5757\u78C1\u76D8\u66F4\u597D\u7684\u5B58\u50A8\u6027\u80FD\u548C\u66F4\u9AD8\u7684\u53EF\u9760\u6027\u3002 "), t("p", {
@@ -12282,10 +12282,10 @@ var eF = Fa(Kt => {
         },
         Fh = ga(() => t("h2", {
             name: "content"
-        }, "Self-Monitoring Analysis and Reporting Technology", -1)),
+        }, "自监测、分析与报告技术", -1)),
         Eh = ga(() => t("div", {
             class: "cbi-map-descr"
-        }, [t("p", null, "Automatic hard drive status detection and early warning specification system through detection clues in hard drive hardware, such as magnetic heads, disks, and drive motors."), t("p", null, "Circuit operation is monitored, logged, and compared to preset safety values ​​set by manufacturer. If monitoring situation is close to or has exceeded the security range of the preset security value, then monitoring hardware or software in host computer can automatically warn user and perform small automatic repairs to ensure the safety of hard disk data in advance.")], -1)),
+        }, [t("p", null, "通过检测硬盘磁头、盘片、驱动电机等硬件状态，自动发现异常并提供预警。"), t("p", null, "Circuit operation is monitored, logged, and compared to preset safety values ​​set by manufacturer. If monitoring situation is close to or has exceeded the security range of the preset security value, then monitoring hardware or software in host computer can automatically warn user and perform small automatic repairs to ensure the safety of hard disk data in advance.")], -1)),
         Ch = {
             class: "tabs"
         },
@@ -12294,13 +12294,13 @@ var eF = Fa(Kt => {
             setup(e) {
                 const a = [{
                         to: "/smart",
-                        name: "Settings"
+                        name: "设置"
                     }, {
                         to: "/smart/task",
-                        name: "Scheduled Tasks"
+                        name: "计划任务"
                     }, {
                         to: "/smart/log",
-                        name: "Logs"
+                        name: "日志"
                     }],
                     o = y(!1),
                     n = it({
@@ -12335,7 +12335,7 @@ var eF = Fa(Kt => {
                     }
                 }))();
                 const p = f => T(this, null, function* () {
-                    const d = F.Loading("Saving...");
+                    const d = F.Loading("正在保存……");
                     try {
                         const l = yield S.Smart.Config.POST(f);
                         if (l.data) {
@@ -12346,7 +12346,7 @@ var eF = Fa(Kt => {
                                 result: b
                             } = l.data;
                             if (m) throw m;
-                            (u || 0) == 0 && (F.Success("Configuration successfully"), b && s(b))
+                            (u || 0) == 0 && (F.Success("配置成功"), b && s(b))
                         }
                     } catch (l) {
                         F.Error(`${l}`)
@@ -12430,7 +12430,7 @@ var eF = Fa(Kt => {
         },
         Ih = t("label", {
             class: "cbi-value-title"
-        }, "Disk", -1),
+        }, "磁盘", -1),
         Lh = {
             class: "cbi-value-field"
         },
@@ -12442,7 +12442,7 @@ var eF = Fa(Kt => {
         },
         Nh = t("label", {
             class: "cbi-value-title"
-        }, "Temperature Monitoring (Difference)", -1),
+        }, "温度变化监控", -1),
         qh = {
             class: "cbi-value-field"
         },
@@ -12451,20 +12451,20 @@ var eF = Fa(Kt => {
         },
         Gh = t("option", {
             value: -1
-        }, "Use global configuration", -1),
+        }, "使用全局配置", -1),
         jh = t("option", {
             value: 0
-        }, "Disabled", -1),
+        }, "已禁用", -1),
         Rh = ["value"],
         Uh = t("div", {
             class: "cbi-value-description"
-        }, "Report if temperature has changed by at least N degrees since the last report.", -1),
+        }, "温度相对上次报告变化至少 N 摄氏度时报告。", -1),
         Wh = {
             class: "cbi-value"
         },
         Hh = t("label", {
             class: "cbi-value-title"
-        }, "Temperature Monitoring (Maximum)", -1),
+        }, "最高温度监控", -1),
         Zh = {
             class: "cbi-value-field"
         },
@@ -12473,14 +12473,14 @@ var eF = Fa(Kt => {
         },
         Xh = t("option", {
             value: -1
-        }, "Use global configuration", -1),
+        }, "使用全局配置", -1),
         Kh = t("option", {
             value: 0
-        }, "Disable", -1),
+        }, "禁用", -1),
         Qh = ["value"],
         tx = t("div", {
             class: "cbi-value-description"
-        }, "Report if temperature is greater than or equal to N degrees Celsius.", -1),
+        }, "温度达到或超过 N 摄氏度时报告。", -1),
         ex = {
             class: "actioner-container_footer"
         },
@@ -12550,11 +12550,11 @@ var eF = Fa(Kt => {
                         class: "cbi-button cbi-button-remove",
                         onClick: s,
                         disabled: o.value
-                    }, "Dismiss", 8, ax), t("button", {
+                    }, "取消", 8, ax), t("button", {
                         class: "cbi-button cbi-button-apply",
                         onClick: c,
                         disabled: o.value
-                    }, "Save & Apply", 8, ox)])])]),
+                    }, "保存并应用", 8, ox)])])]),
                     _: 1
                 }))
             }
@@ -12564,7 +12564,7 @@ var eF = Fa(Kt => {
         },
         rx = t("div", {
             class: "actioner-container_header"
-        }, [t("span", null, "Create a scheduled task")], -1),
+        }, [t("span", null, "创建计划任务")], -1),
         sx = {
             class: "actioner-container_body"
         },
@@ -12573,7 +12573,7 @@ var eF = Fa(Kt => {
         },
         ux = t("label", {
             class: "cbi-value-title"
-        }, "Disk", -1),
+        }, "磁盘", -1),
         lx = {
             class: "cbi-value-field"
         },
@@ -12582,14 +12582,14 @@ var eF = Fa(Kt => {
         },
         px = t("option", {
             value: ""
-        }, "Select disk", -1),
+        }, "选择磁盘", -1),
         fx = ["value"],
         mx = {
             class: "cbi-value"
         },
         bx = t("label", {
             class: "cbi-value-title"
-        }, "Type", -1),
+        }, "类型", -1),
         vx = {
             class: "cbi-value-field"
         },
@@ -12598,23 +12598,23 @@ var eF = Fa(Kt => {
         },
         _x = t("option", {
             value: "short"
-        }, "Short self-test", -1),
+        }, "短时间自检", -1),
         hx = t("option", {
             value: "long"
-        }, "Long self-test", -1),
+        }, "长时间自检", -1),
         xx = t("option", {
             value: "conveyance"
-        }, "Self-test during transmission", -1),
+        }, "传输自检", -1),
         kx = t("option", {
             value: "offline"
-        }, "Self-test when offline", -1),
+        }, "离线自检", -1),
         wx = [_x, hx, xx, kx],
         yx = {
             class: "cbi-value"
         },
         Fx = t("label", {
             class: "cbi-value-title"
-        }, "Hour", -1),
+        }, "小时", -1),
         Ex = {
             class: "cbi-value-field"
         },
@@ -12627,13 +12627,13 @@ var eF = Fa(Kt => {
         Dx = ["value"],
         Bx = t("div", {
             class: "cbi-value-description"
-        }, " * Means hourly", -1),
+        }, " * 表示每小时", -1),
         Yx = {
             class: "cbi-value"
         },
         Ax = t("label", {
             class: "cbi-value-title"
-        }, "Days", -1),
+        }, "日期", -1),
         Sx = {
             class: "cbi-value-field"
         },
@@ -12646,13 +12646,13 @@ var eF = Fa(Kt => {
         Tx = ["value"],
         Ix = t("div", {
             class: "cbi-value-description"
-        }, " * Means every day", -1),
+        }, " * 表示每天", -1),
         Lx = {
             class: "cbi-value"
         },
         Mx = t("label", {
             class: "cbi-value-title"
-        }, "Month", -1),
+        }, "月份", -1),
         Ox = {
             class: "cbi-value-field"
         },
@@ -12665,7 +12665,7 @@ var eF = Fa(Kt => {
         Vx = ["value"],
         Gx = t("div", {
             class: "cbi-value-description"
-        }, " * Means monthly", -1),
+        }, " * 表示每月", -1),
         jx = {
             class: "actioner-container_footer"
         },
@@ -12714,7 +12714,7 @@ var eF = Fa(Kt => {
                     },
                     f = () => T(this, null, function* () {
                         if (n.devicePath == "") {
-                            F.Warning("Please select a disk");
+                            F.Warning("请选择磁盘");
                             return
                         }
                         o.value = !0;
@@ -12772,11 +12772,11 @@ var eF = Fa(Kt => {
                         class: "cbi-button cbi-button-remove",
                         onClick: p,
                         disabled: o.value
-                    }, "Cancel", 8, Rx), t("button", {
+                    }, "取消", 8, Rx), t("button", {
                         class: "cbi-button cbi-button-apply",
                         onClick: f,
                         disabled: o.value
-                    }, "Save & Apply", 8, Ux)])])]),
+                    }, "保存并应用", 8, Ux)])])]),
                     _: 1
                 }))
             }
@@ -12787,7 +12787,7 @@ var eF = Fa(Kt => {
         },
         Jx = Hx(() => t("div", {
             class: "actioner-container_header"
-        }, [t("span", null, "Run debug")], -1)),
+        }, [t("span", null, "运行调试")], -1)),
         Xx = {
             class: "actioner-container_body"
         },
@@ -12868,12 +12868,12 @@ var eF = Fa(Kt => {
                         class: "button cbi-button cbi-button-remove",
                         onClick: d,
                         disabled: o.value
-                    }, "Close", 8, tk), o.value ? C("", !0) : (i(), r("div", {
+                    }, "关闭", 8, tk), o.value ? C("", !0) : (i(), r("div", {
                         key: 0,
                         class: "button cbi-button cbi-button-apply",
                         onClick: l,
                         disabled: o.value
-                    }, "Next", 8, ek))])])]),
+                    }, "下一步", 8, ek))])])]),
                     _: 1
                 }))
             }
@@ -12891,13 +12891,13 @@ var eF = Fa(Kt => {
         rk = {
             class: "tabs"
         },
-        sk = qt(() => t("a", null, "Device Information", -1)),
+        sk = qt(() => t("a", null, "设备信息", -1)),
         dk = [sk],
-        uk = qt(() => t("a", null, "Property", -1)),
+        uk = qt(() => t("a", null, "属性", -1)),
         lk = [uk],
-        ck = qt(() => t("a", null, "Self-test Log", -1)),
+        ck = qt(() => t("a", null, "自检日志", -1)),
         pk = [ck],
-        fk = qt(() => t("a", null, "Extended Information", -1)),
+        fk = qt(() => t("a", null, "扩展信息", -1)),
         mk = [fk],
         bk = {
             class: "actioner-container_body"
@@ -12911,7 +12911,7 @@ var eF = Fa(Kt => {
         },
         _k = qt(() => t("td", {
             class: "td left"
-        }, "Device", -1)),
+        }, "设备", -1)),
         hk = {
             class: "td left"
         },
@@ -12920,7 +12920,7 @@ var eF = Fa(Kt => {
         },
         kk = qt(() => t("td", {
             class: "td left"
-        }, "Model", -1)),
+        }, "型号", -1)),
         wk = {
             class: "td left"
         },
@@ -12929,7 +12929,7 @@ var eF = Fa(Kt => {
         },
         Fk = qt(() => t("td", {
             class: "td left"
-        }, "Serial Number", -1)),
+        }, "序列号", -1)),
         Ek = {
             class: "td left"
         },
@@ -13064,7 +13064,7 @@ var eF = Fa(Kt => {
                         class: "cbi-button cbi-button-remove",
                         onClick: c,
                         disabled: o.value
-                    }, "Exit", 8, Yk)])])]),
+                    }, "退出", 8, Yk)])])]),
                     _: 1
                 }))
             }
@@ -13132,7 +13132,7 @@ var eF = Fa(Kt => {
         },
         Ok = t("label", {
             class: "cbi-value-title"
-        }, "Enable", -1),
+        }, "启用", -1),
         Nk = {
             class: "cbi-value-field"
         },
@@ -13145,7 +13145,7 @@ var eF = Fa(Kt => {
         },
         jk = t("label", {
             class: "cbi-value-title"
-        }, "Power Mode", -1),
+        }, "电源模式", -1),
         Rk = {
             class: "cbi-value-field"
         },
@@ -13154,26 +13154,26 @@ var eF = Fa(Kt => {
         },
         Wk = t("option", {
             value: "never"
-        }, "Never", -1),
+        }, "始终检测", -1),
         Hk = t("option", {
             value: "sleep"
-        }, "Sleep", -1),
+        }, "睡眠", -1),
         Zk = t("option", {
             value: "standby"
-        }, "Standby", -1),
+        }, "待机", -1),
         Jk = t("option", {
             value: "idle"
-        }, "Idle", -1),
+        }, "空闲", -1),
         Xk = [Wk, Hk, Zk, Jk],
         Kk = t("div", {
             class: "cbi-value-description"
-        }, [t("span", null, "The disk will rotate during the test, please select the appropriate mode to control the rotation of the disk."), t("br"), t("span", null, "Always test to check the disk no matter what power mode it is in, when checking, this may cause a stalled disk to start spinning."), t("br"), t("span", null, "Sleep In sleep mode the device is not checked."), t("br"), t("span", null, "Standby does not check the device in standby and sleep mode. In this mode, the disk generally does not rotate. If you don't want to rotate the disk every time you check, then this mode is more suitable."), t("br"), t("span", null, "Idle does not check devices in standby, sleep, idle mode, and in idle most disks are still spinning, so this might not work for you.")], -1),
+        }, [t("span", null, "检测可能唤醒硬盘，请选择合适的电源模式以控制检测行为。"), t("br"), t("span", null, "无论硬盘处于何种电源模式都进行检测，可能唤醒已停转的硬盘。"), t("br"), t("span", null, "睡眠：设备处于睡眠模式时不检测。"), t("br"), t("span", null, "待机：设备处于待机或睡眠模式时不检测，通常可避免检测时唤醒已停转的硬盘。"), t("br"), t("span", null, "空闲：设备处于待机、睡眠或空闲模式时不检测。多数硬盘在空闲模式下仍然旋转。")], -1),
         Qk = {
             class: "cbi-value"
         },
         tw = t("label", {
             class: "cbi-value-title"
-        }, "Temperature Monitoring (Difference)", -1),
+        }, "温度变化监控", -1),
         ew = {
             class: "cbi-value-field"
         },
@@ -13182,17 +13182,17 @@ var eF = Fa(Kt => {
         },
         ow = t("option", {
             value: 0
-        }, "Disable", -1),
+        }, "禁用", -1),
         nw = ["value"],
         iw = t("div", {
             class: "cbi-value-description"
-        }, "Report if temperature has changed by at least N degrees since the last report.", -1),
+        }, "温度相对上次报告变化至少 N 摄氏度时报告。", -1),
         rw = {
             class: "cbi-value"
         },
         sw = t("label", {
             class: "cbi-value-title"
-        }, "Temperature Monitoring (Maximum)", -1),
+        }, "最高温度监控", -1),
         dw = {
             class: "cbi-value-field"
         },
@@ -13201,11 +13201,11 @@ var eF = Fa(Kt => {
         },
         lw = t("option", {
             value: 0
-        }, "Disable", -1),
+        }, "禁用", -1),
         cw = ["value"],
         pw = t("div", {
             class: "cbi-value-description"
-        }, "Report if temperature is greater than or equal to N degrees Celsius.", -1),
+        }, "温度达到或超过 N 摄氏度时报告。", -1),
         fw = {
             class: "cbi-section cbi-tblsection",
             id: "cbi-nfs-mount"
@@ -13221,22 +13221,22 @@ var eF = Fa(Kt => {
         }, "Path"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Model"), t("th", {
+        }, "型号"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Serial Number"), t("th", {
+        }, "序列号"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Size"), t("th", {
+        }, "容量"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Temp"), t("th", {
+        }, "温度"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Status"), t("th", {
+        }, "状态"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Health"), t("th", {
+        }, "健康状态"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
         }, "")])], -1),
@@ -13383,20 +13383,20 @@ var eF = Fa(Kt => {
                     [Q, w(o).global.tmpMax, void 0, {
                         number: !0
                     }]
-                ])]), pw])])]), t("div", fw, [t("h3", null, "Disks", -1), t("table", mw, [bw, t("tbody", null, [(i(!0), r(L, null, j(s.value, (b, _) => (i(), r("tr", vw, [t("td", gw, [t("b", null, h(b.path), 1)]), t("td", _w, [t("b", null, h(b.model), 1)]), t("td", hw, [t("b", null, h(b.serial), 1)]), t("td", xw, [t("b", null, h(b.sizeStr), 1)]), t("td", kw, [t("b", null, h(b.temp), 1)]), t("td", ww, [t("b", null, h(b.status), 1)]), t("td", yw, [t("b", null, h(b.health), 1)]), t("td", Fw, [t("button", {
+                ])]), pw])])]), t("div", fw, [t("h3", null, "磁盘", -1), t("table", mw, [bw, t("tbody", null, [(i(!0), r(L, null, j(s.value, (b, _) => (i(), r("tr", vw, [t("td", gw, [t("b", null, h(b.path), 1)]), t("td", _w, [t("b", null, h(b.model), 1)]), t("td", hw, [t("b", null, h(b.serial), 1)]), t("td", xw, [t("b", null, h(b.sizeStr), 1)]), t("td", kw, [t("b", null, h(b.temp), 1)]), t("td", ww, [t("b", null, h(b.status), 1)]), t("td", yw, [t("b", null, h(b.health), 1)]), t("td", Fw, [t("button", {
                     class: "cbi-button cbi-button-apply",
                     title: "edit",
                     onClick: v => l(b)
-                }, "Edit", 8, Ew), t("button", {
+                }, "编辑", 8, Ew), t("button", {
                     class: "cbi-button cbi-button-apply",
                     title: "details",
                     onClick: v => d(b)
-                }, "Details", 8, Cw)])]))), 256))])])]), t("span", {
+                }, "详情", 8, Cw)])]))), 256))])])]), t("span", {
                     class: "cbi-page-actions control-group"
                 }, [t("input", {
                     class: "cbi-button cbi-button-apply",
                     type: "button",
-                    value: "Save & Apply",
+                    value: "保存并应用",
                     onClick: f
                 })])], 64))
             }
@@ -13413,13 +13413,13 @@ var eF = Fa(Kt => {
         }, [t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Device"), t("th", {
+        }, "设备"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Type"), t("th", {
+        }, "类型"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
-        }, "Scheduling"), t("th", {
+        }, "任务计划"), t("th", {
             class: "th cbi-section-table-cell",
             "data-widget": "value"
         }, "")])], -1),
@@ -13457,15 +13457,15 @@ var eF = Fa(Kt => {
                     n = f => {
                         switch (f) {
                             case "short":
-                                return "Short self-test";
+                                return "短时间自检";
                             case "long":
-                                return "Long self-test";
+                                return "长时间自检";
                             case "conveyance":
-                                return "Self-test during transmission";
+                                return "传输自检";
                             case "offline":
-                                return "Self-test when offline";
+                                return "离线自检";
                             default:
-                                return "Unknown"
+                                return "未知"
                         }
                     },
                     s = () => {
@@ -13494,19 +13494,19 @@ var eF = Fa(Kt => {
                             task: f
                         })
                     };
-                return (f, d) => (i(), r(L, null, [t("div", Dw, [t("h3", null, "Device Schedules"), t("table", Bw, [Yw, t("tbody", null, [(i(!0), r(L, null, j(w(o).tasks, (l, u) => (i(), r("tr", Aw, [t("td", Sw, [t("b", null, h(l.devicePath), 1)]), t("td", zw, [t("b", null, h(n(l.type)), 1)]), t("td", Pw, [t("b", null, h(l.month) + "/" + h(l.dayPerMonth) + "/" + h(l.hour), 1)]), t("td", Tw, [t("button", {
+                return (f, d) => (i(), r(L, null, [t("div", Dw, [t("h3", null, "设备计划任务"), t("table", Bw, [Yw, t("tbody", null, [(i(!0), r(L, null, j(w(o).tasks, (l, u) => (i(), r("tr", Aw, [t("td", Sw, [t("b", null, h(l.devicePath), 1)]), t("td", zw, [t("b", null, h(n(l.type)), 1)]), t("td", Pw, [t("b", null, h(l.month) + "/" + h(l.dayPerMonth) + "/" + h(l.hour), 1)]), t("td", Tw, [t("button", {
                     class: "cbi-button cbi-button-apply",
-                    title: "Edit",
+                    title: "编辑",
                     onClick: m => p(l)
-                }, "Edit", 8, Iw), t("button", {
+                }, "编辑", 8, Iw), t("button", {
                     class: "cbi-button cbi-button-remove",
-                    title: "Delete",
+                    title: "删除",
                     onClick: m => c(u)
-                }, "Delete", 8, Lw)])]))), 256))])]),
+                }, "删除", 8, Lw)])]))), 256))])]),
                 t("button", {
                     class: "cbi-button cbi-button-add",
                     onClick: d[0] || (d[0] = l => s())
-                }, "Add")])], 64))
+                }, "添加")])], 64))
             }
         }),
         Ow = {
@@ -13585,7 +13585,7 @@ var eF = Fa(Kt => {
         },
         ty = xe(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Name")], -1)),
+        }, [t("span", null, "名称")], -1)),
         ey = {
             class: "label-item_value"
         },
@@ -13594,20 +13594,20 @@ var eF = Fa(Kt => {
         },
         oy = xe(() => t("div", {
             class: "label-item_key"
-        }, [t("span", null, "Protocol (Network Acquisition Method)")], -1)),
+        }, [t("span", null, "协议（网络地址获取方式）")], -1)),
         ny = {
             class: "label-item_value"
         },
         iy = xe(() => t("option", {
             value: "dhcp"
-        }, "DHCP Client", -1)),
+        }, "DHCP 客户端", -1)),
         ry = {
             key: 0,
             value: "pppoe"
         },
         sy = xe(() => t("option", {
             value: "static"
-        }, "Static Address", -1)),
+        }, "静态地址", -1)),
         dy = {
             class: "actioner-dns_footer"
         },
@@ -13640,7 +13640,7 @@ var eF = Fa(Kt => {
                     o = y(!1),
                     n = y(a.inface),
                     s = () => T(this, null, function* () {
-                        F.Loading("Configuration...").Close(), a.next(n.value), c()
+                        F.Loading("正在配置……").Close(), a.next(n.value), c()
                     }),
                     c = () => {
                         a.Close && a.Close()
@@ -13652,19 +13652,19 @@ var eF = Fa(Kt => {
                     default: V(() => [t("form", {
                         class: "actioner-dns",
                         onSubmit: nt(s, ["prevent"])
-                    }, [t("div", Zw, [e.name == "wan" ? (i(), r("span", Jw, h(e.e == "edit" ? "Edit WAN" : "Add WAN"), 1)) : (i(), r("span", Xw, h(e.e == "edit" ? "Edit LAN" : "Add LAN"), 1))]), t("div", Kw, [t("div", Qw, [ty, t("div", ey, [t("span", null, h(n.value.name.toLocaleUpperCase()), 1)])]), t("div", ay, [oy, t("div", ny, [z(t("select", {
+                    }, [t("div", Zw, [e.name == "wan" ? (i(), r("span", Jw, h(e.e == "edit" ? "编辑 WAN" : "添加 WAN"), 1)) : (i(), r("span", Xw, h(e.e == "edit" ? "编辑 LAN" : "添加 LAN"), 1))]), t("div", Kw, [t("div", Qw, [ty, t("div", ey, [t("span", null, h(n.value.name.toLocaleUpperCase()), 1)])]), t("div", ay, [oy, t("div", ny, [z(t("select", {
                         "onUpdate:modelValue": f[0] || (f[0] = d => n.value.proto = d)
                     }, [iy, e.name == "wan" ? (i(), r("option", ry, "PPPoE")) : C("", !0), sy], 512), [
                         [Q, n.value.proto]
                     ])])])]), t("div", dy, [t("button", {
                         class: "cbi-button cbi-button-remove app-btn app-back",
                         onClick: c
-                    }, "Dismiss"), t("button", {
+                    }, "取消"), t("button", {
                         class: "cbi-button cbi-button-positive app-btn",
                         disabled: o.value
-                    }, "Save", 8, uy)])], 40, Hw)]),
+                    }, "保存", 8, uy)])], 40, Hw)]),
                     _: 1
-                }, 8, ["Close"]))
+                }, 8, ["关闭"]))
             }
         });
     var cy = Y(ly, [
@@ -13689,7 +13689,7 @@ var eF = Fa(Kt => {
         },
         fy = vt(() => t("h2", {
             name: "content"
-        }, "Network Port Configuration", -1)),
+        }, "网口配置", -1)),
         my = {
             class: "cbi-section cbi-tblsection",
             id: "cbi-nfs-mount"
@@ -13835,7 +13835,7 @@ var eF = Fa(Kt => {
                                     firewallType: m
                                 },
                                 next: v => {
-                                    m == "wan" ? n.wan.push(v) : n.lan.push(v), F.Message("Please go to the 'Network-Interface' page to configure detailed parameters of the interface")
+                                    m == "wan" ? n.wan.push(v) : n.lan.push(v), F.Message("请前往“网络 → 接口”页面配置接口的详细参数")
                                 }
                             })
                         } else Je({
@@ -13887,7 +13887,7 @@ var eF = Fa(Kt => {
                         }
                         for (let _ = 0; _ < n.lan.length; _++) {
                             const v = n.lan[_];
-                            if (v.name === "lan" && (!v.deviceNames || v.deviceNames.length == 0) && !confirm("LAN port is not associated with any physical network port, which may cause the router to lose connection. Do you want to continue?")) {
+                            if (v.name === "lan" && (!v.deviceNames || v.deviceNames.length == 0) && !confirm("LAN 接口未关联任何物理网口，可能导致无法连接路由器。确定继续吗？")) {
                                 o.value = !1;
                                 return
                             }
@@ -13898,7 +13898,7 @@ var eF = Fa(Kt => {
                                 firewallType: v.firewallType
                             })
                         }
-                        const b = F.Loading("Saving...");
+                        const b = F.Loading("正在保存……");
                         try {
                             const _ = yield S.Network.POSTInterfaceConfig.POST({
                                 configs: m
@@ -13910,7 +13910,7 @@ var eF = Fa(Kt => {
                                     error: k
                                 } = _.data;
                                 if (k) throw k;
-                                (v || 0) == 0 && F.Success("Configuration successfully")
+                                (v || 0) == 0 && F.Success("配置成功")
                             }
                         } catch (_) {
                             F.Error(`${_}`)
@@ -13930,13 +13930,13 @@ var eF = Fa(Kt => {
                     [Lt, _.deviceNames]
                 ])]))), 256)), By, t("td", Yy, [t("b", null, h(_.name), 1)]), t("td", Ay, [t("button", {
                     class: "btn cbi-button cbi-button-apply",
-                    title: "Edit",
+                    title: "编辑",
                     onClick: g => p("lan", v)
-                }, "Edit", 8, Sy), v != 0 ? (i(), r("button", {
+                }, "编辑", 8, Sy), v != 0 ? (i(), r("button", {
                     key: 0,
                     class: "cbi-button cbi-button-remove",
                     onClick: g => c("lan", v)
-                }, "Delete ", 8, zy)) : C("", !0)])]))), 256)), t("tr", Py, [(i(!0), r(L, null, j(w(a).devices, _ => (i(), r("td", Ty))), 256)), Iy, Ly, t("td", {
+                }, "删除 ", 8, zy)) : C("", !0)])]))), 256)), t("tr", Py, [(i(!0), r(L, null, j(w(a).devices, _ => (i(), r("td", Ty))), 256)), Iy, Ly, t("td", {
                     class: "td cbi-value-field btns",
                     onClick: b[0] || (b[0] = _ => p("lan"))
                 }, [D(Ze, {
@@ -13951,13 +13951,13 @@ var eF = Fa(Kt => {
                     [Lt, _.deviceNames]
                 ])]))), 256)), qy, t("td", Vy, [t("b", null, h(_.name), 1)]), t("td", Gy, [t("button", {
                     class: "btn cbi-button cbi-button-apply",
-                    title: "Edit",
+                    title: "编辑",
                     onClick: g => p("wan", v)
-                }, "Edit", 8, jy), v != 0 ? (i(), r("button", {
+                }, "编辑", 8, jy), v != 0 ? (i(), r("button", {
                     key: 0,
                     class: "cbi-button cbi-button-remove",
                     onClick: g => c("wan", v)
-                }, "Delete", 8, Ry)) : C("", !0)])]))), 256)), t("tr", Uy, [(i(!0), r(L, null, j(w(a).devices, _ => (i(), r("td", Wy))), 256)), Hy, Zy, t("td", {
+                }, "删除", 8, Ry)) : C("", !0)])]))), 256)), t("tr", Uy, [(i(!0), r(L, null, j(w(a).devices, _ => (i(), r("td", Wy))), 256)), Hy, Zy, t("td", {
                     class: "td cbi-value-field btns",
                     onClick: b[1] || (b[1] = _ => p("wan"))
                 }, [D(Ze, {
@@ -13965,7 +13965,7 @@ var eF = Fa(Kt => {
                 })])])])])]), t("div", Jy, [t("input", {
                     class: "btn cbi-button cbi-button-apply",
                     type: "button",
-                    value: "Save & Apply",
+                    value: "保存并应用",
                     onClick: u,
                     disabled: o.value
                 }, null, 8, Xy)])])]))
@@ -13988,7 +13988,7 @@ var eF = Fa(Kt => {
                 name: "NetworkPage",
                 path: "/network",
                 meta: {
-                    title: "Network Setup Wizard"
+                    title: "网络配置向导"
                 },
                 component: m9,
                 children: [{
@@ -14015,7 +14015,7 @@ var eF = Fa(Kt => {
                 name: "SmartPage",
                 path: "/smart",
                 meta: {
-                    title: "Smart Detection"
+                    title: "硬盘健康检测"
                 },
                 component: Bh,
                 children: [{

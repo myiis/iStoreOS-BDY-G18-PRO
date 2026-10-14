@@ -8,7 +8,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/fibocom-dial
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS:=+libpthread +libdl
+  DEPENDS:=+libpthread +libc
   TITLE:=Fibocom Dial
 endef
 

@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh_CN\n"
+
+msgid "Docker Manager"
+msgstr "Docker 管理"
+
+msgid "Docker Manager Status"
+msgstr "Docker 管理服务状态"
+
+msgid "Docker Manager provides a LinkEase Desktop web module and HTTP API for Docker management."
+msgstr "提供易有云桌面网页模块和 HTTP API，用于管理 Docker。"
+
+msgid "Global settings"
+msgstr "全局设置"
+
+msgid "Enable"
+msgstr "启用"
+
+msgid "Data directory"
+msgstr "数据目录"
+
+msgid "Listen mode"
+msgstr "监听方式"
+
+msgid "Auto"
+msgstr "自动"
+
+msgid "Unix socket"
+msgstr "Unix 套接字"
+
+msgid "TCP port"
+msgstr "TCP 端口"
+
+msgid "Enable external port access"
+msgstr "启用外部端口访问"
+
+msgid "Unix socket path"
+msgstr "Unix 套接字路径"
+
+msgid "Listen port"
+msgstr "监听端口"
+
+msgid "Bind address"
+msgstr "绑定地址"
+
+msgid "Base path"
+msgstr "基础路径"
+
+msgid "The Docker Manager service is running."
+msgstr "Docker 管理服务正在运行。"
+
+msgid "The Docker Manager service is not running."
+msgstr "Docker 管理服务未运行。"
+
+msgid "Access mode: LinkEase Desktop proxy."
+msgstr "访问方式：易有云桌面代理。"
+
+msgid "Access mode: external port."
+msgstr "访问方式：外部端口。"
+
+msgid "External port access is disabled."
+msgstr "外部端口访问已禁用。"
+
+msgid "Open Docker Manager"
+msgstr "打开 Docker 管理"
+
+msgid "Collecting data..."
+msgstr "正在收集数据……"
+

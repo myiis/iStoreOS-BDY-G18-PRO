@@ -9,3 +9,5 @@ Imported package definitions and integration files, retaining upstream copyright
 The metadata Makefile's relative include path is adapted to this repository layout. Runtime downloads use the original upstream URLs and SHA256 hashes. The package contains prebuilt runtime binaries; the packaging license notices do not establish the runtime binary's license.
 
 Docker Manager is separate from the existing `luci-app-dockerman`. Docker Manager and its dependencies are explicitly selected in config/g18-pro.config; the existing DockerMan remains selected in the preset. Device runtime behavior must be verified on hardware after building the firmware.
+
+Local localization: luci-app-dockermanager release 4 adds po/zh-cn/dockermanager.po for the LuCI settings and status pages. The preset enables simplified Chinese, so LuCI selects the translation package by default when resolving configuration. The prebuilt Docker Manager runtime is unchanged.
