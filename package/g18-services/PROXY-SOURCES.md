@@ -11,3 +11,5 @@ All missing selected dependency packages are vendored in this repository for fre
 Both services require user configuration/subscription before use. Do not enable both transparent proxies at the same time. Device runtime behavior remains to be verified on hardware. No MT7615E, mt76, mac80211, calibration or board files are changed.
 
 Compatibility pins: geoview 0.1.10 and v2ray-plugin 5.25.0 support the existing Go 1.23 toolchain; shadowsocks-rust 1.24.0 requires Rust 1.88 and is compatible with the existing Rust 1.90 toolchain. Their individual packaging commits are recorded in compatibility_packages. Newer versions require Go 1.24/1.25 or Rust 1.91, so they are deliberately not imported.
+
+Passwall geoip/geosite data are also selected from the existing packages feed so the default geographic routing rules have local data files. Builds verify downloaded data against the feed package hashes.
