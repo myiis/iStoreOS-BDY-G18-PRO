@@ -10,7 +10,7 @@
     ".githooks/pre-merge-commit": "2c3792803bf772a42182346607c9e2b5e6eb414ef0bcbdd9c08f7df696d91a66",
     ".github/workflows/g18-wifi-guard.yml": "69e6f702d4f084c4a80a675a707e8b5e934a8ad97c56cdabcc2a88440ebb1195",
     "Makefile": "0d5ec67f718d0806dd591ffff2389df004c9055a723fbea69cd55036a04d5cee",
-    "config/g18-pro.config": "bb7750076e9f2a842c9d0e7de839b9457cec6c781e845ff1dda349540c12fa85",
+    "config/g18-pro.config": "915441dc603c87ece5ed03cdb6ef5994cda969d1e524c932f8c79c5bd89e9a87",
     "include/kernel-6.6": "5fdfc45b637650a790b2970f0274eb9e618df2a8736300232fcdfaddd6410187",
     "package/kernel/mac80211/Makefile": "31f56d9a1bac13a1676d90730d4e177e7067bc4e5737e974d3324fb119030853",
     "package/kernel/mac80211/ath.mk": "78ce31f18ded4ec3827b9865d8eceb95c43c5d9e7e7541ab0f43e3767096de3d",
